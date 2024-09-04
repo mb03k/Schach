@@ -1,6 +1,6 @@
 package Pieces;
 
-public class Rook {
+public class Rook extends Piece {
     public Rook(String color) {
 
     }

@@ -1,6 +1,6 @@
 package Pieces;
 
-public class Pawn {
+public class Pawn extends Piece {
     public Pawn(String color) {
 
     }

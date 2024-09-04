@@ -2,12 +2,12 @@ package Pieces;
 
 import java.util.ArrayList;
 
-public abstract class Movements {
+public abstract class Piece{
     private int[] position;
 
     private ArrayList<Integer>[] potentialPosition;
 
-    private String getColor() {
+    public String getColor() {
         return "";
     }
 

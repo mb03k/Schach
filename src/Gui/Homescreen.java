@@ -8,6 +8,7 @@ import static java.lang.System.exit;
 public class Homescreen {
 
     private final JFrame frame;
+    private Play play;
 
     public Homescreen() {
         this.frame = new Frame();
@@ -59,7 +60,11 @@ public class Homescreen {
     }
 
     public void play() {
-        new Play(frame);
+        frame.getContentPane().removeAll();
+        play = new Play(frame);
+        play.setStandardPGN();
+        play.setSpielfeld();
+        frame.repaint();
     }
 
     public void setUpBoard() {

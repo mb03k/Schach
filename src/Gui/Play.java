@@ -1,6 +1,6 @@
 package Gui;
 
-import Pieces.Knight;
+import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +11,9 @@ public class Play {
 
     private final JFrame frame;
     private int[][] pgn;
+    private JPanel checkerboard; // rauswerfen
+
+    private JPanel[][] board;
 
     public Play(JFrame frame) {
         this.frame = frame;
@@ -23,46 +26,73 @@ public class Play {
     public void setSpielfeld() {
         setMenueBar();
         setzeSpielfeldGridLayout();
+        board = new JPanel[8][8];
 
         // Spielfeld (und Farben) erstellen
-        for ( int i=0; i<8; i++ ) { // vertikal
-            for ( int j=0; j<8; j++ ) { // horizontal
+        for (int i=0; i<8; i++) { // vertikal
+            for (int j=0; j<8; j++) { // horizontal
                 setSpielfeldInhalte(i, j);
             }
         }
+
+        frame.setVisible(true);
     }
 
     public void setSpielfeldInhalte(int i, int j) {
         JPanel btnPanel = new JPanel();
 
-        JButton spielfeldButtonListener = new JButton(objectPGN[i][j].getColor);
+        setLayoutPieces(i, j);
 
+        JButton spielfeldButtonListener = new JButton(objectPGN[i][j].getColor());
         btnPanel.add(spielfeldButtonListener);
 
+        checkerboard.add(btnPanel);
 
-        feld[i][j] = btnPanel;
-        feld[i][j].setLayout(new GridLayout());
-
-        feld[i][j].setOpaque(true);
-        faerbeHintergrund(i, j);
-
-
-        setSpielfigur(i, j);
+        board[i][j] = btnPanel;
+        board[i][j].setLayout(new GridLayout());
     }
 
     public void setLayoutPieces(int i, int j) {
-
-    }
-
-    private static void faerbeHintergrund(int y, int x) {
-        feld[y][x].setBackground(Color.GRAY);
-        if (hintergrundIstDunkel(y, x)) { // jedes zweite Feld färben
-            feld[y][x].setBackground(Color.DARK_GRAY);
+        switch(pgn[i][j]) {
+            case 1:
+                objectPGN[i][j] = new Pawn("white");
+                break;
+            case 2:
+                objectPGN[i][j] = new Bishop("white");
+                break;
+            case 3:
+                objectPGN[i][j] = new Knight("white");
+                break;
+            case 4:
+                objectPGN[i][j] = new Rook("white");
+                break;
+            case 5:
+                objectPGN[i][j] = new Queen("white");
+                break;
+            case 6:
+                objectPGN[i][j] = new King("white");
+                break;
+            case -1:
+                objectPGN[i][j] = new Pawn("black");
+                break;
+            case -2:
+                objectPGN[i][j] = new Bishop("black");
+                break;
+            case -3:
+                objectPGN[i][j] = new Knight("black");
+                break;
+            case -4:
+                objectPGN[i][j] = new Rook("black");
+                break;
+            case -5:
+                objectPGN[i][j] = new Queen("black");
+                break;
+            case -6:
+                objectPGN[i][j] = new King("black");
+                break;
+            default:
+                objectPGN[i][j] = new EmptyField();
         }
-    }
-
-    private static boolean hintergrundIstDunkel(int y, int x) {
-        return ((y+x) % 2 == 1);
     }
 
     public void setzeSpielfeldGridLayout() {
@@ -111,7 +141,7 @@ public class Play {
 
     public void erzeugeSpielfeldGUI(GridBagConstraints gbc) {
         // Spielfeld
-        /*checkerboard = new JPanel();
+        checkerboard = new JPanel();
         checkerboard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         checkerboard.setLayout(new GridLayout(8, 8));
         checkerboard.setBackground(Color.DARK_GRAY);
@@ -119,7 +149,7 @@ public class Play {
         gbc.gridy = 2;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        frame.add(checkerboard, gbc);*/
+        frame.add(checkerboard, gbc);
 
         // Raender erstellen
         JPanel linksRand = new JPanel();
@@ -138,75 +168,17 @@ public class Play {
         gbc.weighty = 0.8;
         frame.add(rechtsRand, gbc);
     }
-    
-    public void setSpielfigur(int i, int j) {
-        switch (pgn[i][j]) {
-            case -1: // Bauer schwarz
-                break;
-
-            case -2: // Dame schwarz
-                break;
-
-            case 1: // Bauer weiß
-                break;
-
-            case 2: // Dame weiß
-                break;
-
-            default:
-        }
-    }
-
-    public void setzeDebugMenuepunkt() {
-        // wenn Benutzer Debug-Modus angeklickt hat, neuen Menüpunkt erstellen
-        if (modus.equals("debug")) {
-            JMenu debug = new JMenu("Debug");
-            JMenuItem wBauer = new JMenuItem("Spielfigur - Weiß");
-            JMenuItem bBauer = new JMenuItem("Spielfigur - Schwarz");
-            JMenuItem wDame = new JMenuItem("Dame - Weiß");
-            JMenuItem bDame = new JMenuItem("Dame - Schwarz");
-            JMenuItem loeschen = new JMenuItem("Figur löschen");
-            JMenuItem spielStarten = new JMenuItem("Spiel starten");
-
-            wDame.addActionListener(e -> debugSetzeSpielfigur(2));
-            wBauer.addActionListener(e -> debugSetzeSpielfigur(1));
-            bDame.addActionListener(e -> debugSetzeSpielfigur(-2));
-            bBauer.addActionListener(e -> debugSetzeSpielfigur(-1));
-            loeschen.addActionListener(e -> debugSetzeSpielfigur(0));
-            //spielStarten.addActionListener(e -> debugStarten());
-
-            wBauer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            bBauer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            wDame.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            bDame.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            loeschen.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            wBauer.setBackground(Color.decode("#d4d4d4"));
-            wDame.setBackground(Color.decode("#d4d4d4"));
-            bBauer.setBackground(Color.decode("#949494"));
-            bDame.setBackground(Color.decode("#949494"));
-            loeschen.setBackground(Color.decode("#FF7074"));
-            spielStarten.setBackground(Color.decode("9498256"));
-
-            debug.add(wDame);
-            debug.add(wBauer);
-            debug.add(bDame);
-            debug.add(bBauer);
-            debug.add(loeschen);
-            debug.add(spielStarten);
-            menueLeiste.add(debug);
-        }
-    }
 
     public void setMenueBar() {
-        // Menüleiste
-        menueLeiste = new JMenuBar();
+        JMenuBar menueLeiste = new JMenuBar();
         JMenu dateiMenue = new JMenu("Datei");
+
         JMenuItem speichern_menuItem = new JMenuItem("Speichern");
-        //speichern_menuItem.addActionListener(e -> spielSpeichern());
         JMenuItem startseite_menuItem = new JMenuItem("Startseite");
-        //startseite_menuItem.addActionListener(e -> setzeStartseite());
         JMenuItem beenden_menuItem = new JMenuItem("Beenden");
+
+        //speichern_menuItem.addActionListener(e -> spielSpeichern());
+        //startseite_menuItem.addActionListener(e -> setzeStartseite());
         //beenden_menuItem.addActionListener(e -> spielBeenden());
 
         speichern_menuItem.setBackground(Color.decode("#92C7CF"));
@@ -218,9 +190,5 @@ public class Play {
         dateiMenue.add(beenden_menuItem);
         menueLeiste.add(dateiMenue);
         frame.setJMenuBar(menueLeiste);
-    }
-    
-    public void debugSetzeSpielfigur(int index) {
-        
     }
 }
