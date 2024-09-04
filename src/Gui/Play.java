@@ -23,9 +23,9 @@ public class Play {
         this.frame = frame;
     }
 
-    public void setSpielfeld() {
+    public void setPlayingField() {
         setMenuBar();
-        setzeSpielfeldGridLayout();
+        setPlayingFieldGridLayout();
         board = new JPanel[8][8];
 
         // creates 64 squares with buttons and pieces
@@ -44,17 +44,18 @@ public class Play {
         JPanel btnPanel = new JPanel();
         String nameOfPiece = objectPGN[y][x].getName();
 
-        JButton spielfeldButtonListener = new JButton(nameOfPiece);
-        spielfeldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 25));
-        spielfeldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
+        JButton playingFieldButtonListener = new JButton(nameOfPiece);
+        playingFieldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 25));
+        playingFieldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
+        playingFieldButtonListener.addActionListener(e -> handlePieceClick(y, x));
 
         // make button invisible
-        spielfeldButtonListener.setBorderPainted(false);
-        spielfeldButtonListener.setContentAreaFilled(false);
-        spielfeldButtonListener.setFocusPainted(false);
-        spielfeldButtonListener.setOpaque(false);
+        playingFieldButtonListener.setBorderPainted(false);
+        playingFieldButtonListener.setContentAreaFilled(false);
+        playingFieldButtonListener.setFocusPainted(false);
+        playingFieldButtonListener.setOpaque(false);
 
-        btnPanel.add(spielfeldButtonListener);
+        btnPanel.add(playingFieldButtonListener);
         board[y][x] = btnPanel;
         board[y][x].setLayout(new GridLayout());
         changeSquareColor(y, x);
@@ -105,56 +106,61 @@ public class Play {
     }
 
     public void changeSquareColor(int y, int x) {
-        if (colorPGN[y][x] == 0) {
-            board[y][x].setBackground(Color.GRAY);
-        } else if (colorPGN[y][x] == 1) {
-            board[y][x].setBackground(Color.LIGHT_GRAY);
-        } else if (colorPGN[y][x] == 2) {
-            board[y][x].setBackground(Color.ORANGE);
+        switch(colorPGN[y][x]) {
+            case 0:
+                board[y][x].setBackground(Color.GRAY);
+                break;
+            case 1:
+                board[y][x].setBackground(Color.LIGHT_GRAY);
+                break;
+            case 2:
+                board[y][x].setBackground(Color.ORANGE);
+                break;
+            default:
         }
     }
 
-    public void setzeSpielfeldGridLayout() {
+    public void setPlayingFieldGridLayout() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 10, 0);
 
-        // Panel fuer labels (A-H)
-        JPanel buchstabenPanel = new JPanel(new GridLayout(1, 8));
-        buchstabenPanel.setBackground(Color.DARK_GRAY);
+        JPanel letterPanel = new JPanel(new GridLayout(1, 8));
+        letterPanel.setBackground(Color.DARK_GRAY);
         gbc.gridwidth = 1;
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.weightx = 0.8;
         gbc.weighty = 0.05;
-        frame.add(buchstabenPanel, gbc);
+        frame.add(letterPanel, gbc);
 
-        // Panel fuer labels (1-8)
-        JPanel nummernPanel = new JPanel(new GridLayout(8, 1));
-        nummernPanel.setBackground(Color.DARK_GRAY);
+        JPanel numberPanel = new JPanel(new GridLayout(8, 1));
+        numberPanel.setBackground(Color.DARK_GRAY);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.1;
         gbc.weighty = 0.8;
-        frame.add(nummernPanel, gbc);
+        frame.add(numberPanel, gbc);
 
-        setzeSpielfeldMarkierungen(buchstabenPanel, nummernPanel);
+        setzeSpielfeldMarkierungen(letterPanel, numberPanel);
         erzeugeSpielfeldGUI(gbc);
     }
 
-    public void setzeSpielfeldMarkierungen(JPanel buchstabenPanel, JPanel nummernPanel) {
+    public void setzeSpielfeldMarkierungen(JPanel letterPanel, JPanel numberPanel) {
+        // Panel for labels (A-H)
         for (int iterator = 0; iterator < 8; iterator++) {
             JLabel letterLabel = new JLabel(String.valueOf((char) ('a' + iterator)), SwingConstants.CENTER);
             letterLabel.setForeground(Color.WHITE);
             letterLabel.setFont(new Font("Arial", Font.BOLD, 20));
-            buchstabenPanel.add(letterLabel);
+            letterPanel.add(letterLabel);
         }
+        // Panel for labels (1-8)
         for (int num=8; num>0; num--) {
-            JLabel nummernLabel = new JLabel(String.valueOf(num), SwingConstants.CENTER);
-            nummernLabel.setForeground(Color.WHITE);
-            nummernLabel.setFont(new Font("Arial", Font.BOLD, 20));
-            nummernLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Abstand Rand
-            nummernPanel.add(nummernLabel);
+            JLabel numberLabel = new JLabel(String.valueOf(num), SwingConstants.CENTER);
+            numberLabel.setForeground(Color.WHITE);
+            numberLabel.setFont(new Font("Arial", Font.BOLD, 20));
+            numberLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Abstand Rand
+            numberPanel.add(numberLabel);
         }
     }
 
@@ -170,45 +176,53 @@ public class Play {
         gbc.weighty = 1;
         frame.add(fieldButtonPanel, gbc);
 
-        // Raender erstellen
-        JPanel linksRand = new JPanel();
-        linksRand.setBackground(Color.DARK_GRAY);
+        // create and add edges
+        JPanel leftEdge = new JPanel();
+        JPanel rightEdge = new JPanel();
+        leftEdge.setBackground(Color.DARK_GRAY);
+        rightEdge.setBackground(Color.DARK_GRAY);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.1;
         gbc.weighty = 0.8;
-        frame.add(linksRand, gbc);
-
-        JPanel rechtsRand = new JPanel();
-        rechtsRand.setBackground(Color.DARK_GRAY);
+        frame.add(leftEdge, gbc);
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.weightx = 0.1;
         gbc.weighty = 0.8;
-        frame.add(rechtsRand, gbc);
+        frame.add(rightEdge, gbc);
     }
 
     public void setMenuBar() {
-        JMenuBar menueLeiste = new JMenuBar();
-        JMenu dateiMenue = new JMenu("Datei");
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("Datei");
 
-        JMenuItem speichern_menuItem = new JMenuItem("Speichern");
-        JMenuItem startseite_menuItem = new JMenuItem("Startseite");
-        JMenuItem beenden_menuItem = new JMenuItem("Beenden");
+        JMenuItem saveMenuItem = new JMenuItem("Speichern");
+        JMenuItem homescreenMenuItem = new JMenuItem("Startseite");
+        JMenuItem quitMenuItem = new JMenuItem("Beenden");
 
-        speichern_menuItem.addActionListener(e -> saveGame());
-        startseite_menuItem.addActionListener(e -> setHomescreen());
-        beenden_menuItem.addActionListener(e -> quitGame());
+        saveMenuItem.addActionListener(e -> saveGame());
+        homescreenMenuItem.addActionListener(e -> setHomescreen());
+        quitMenuItem.addActionListener(e -> quitGame());
 
-        speichern_menuItem.setBackground(Color.decode("#92C7CF"));
-        startseite_menuItem.setBackground(Color.decode("#AAD7D9"));
-        beenden_menuItem.setBackground(Color.decode("#91C8E4"));
+        saveMenuItem.setBackground(Color.decode("#92C7CF"));
+        homescreenMenuItem.setBackground(Color.decode("#AAD7D9"));
+        quitMenuItem.setBackground(Color.decode("#91C8E4"));
 
-        dateiMenue.add(speichern_menuItem);
-        dateiMenue.add(startseite_menuItem);
-        dateiMenue.add(beenden_menuItem);
-        menueLeiste.add(dateiMenue);
-        frame.setJMenuBar(menueLeiste);
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(homescreenMenuItem);
+        fileMenu.add(quitMenuItem);
+        menuBar.add(fileMenu);
+        frame.setJMenuBar(menuBar);
+    }
+
+    public void handlePieceClick(int y, int x) {
+        if (pgn[y][x] == 0) {
+            objectPGN[y][x].setPotentialPosition(y, x);
+        } else {
+            objectPGN[y][x].calculateMoves(y, x);
+        }
+
     }
 
     public void setStandardPGN() {
@@ -219,6 +233,7 @@ public class Play {
         frame.getContentPane().removeAll();
         frame.setJMenuBar(null);
         frame.repaint();
+
         Homescreen sb = new Homescreen();
         sb.setFrame(frame);
         sb.setHomescreen();

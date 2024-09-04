@@ -1,7 +1,7 @@
 package Pieces;
 
 public class Pawn extends Piece {
-    private String color;
+    private final String color;
 
     public Pawn(String color) {
         this.color = color;

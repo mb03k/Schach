@@ -1,7 +1,7 @@
 package Pieces;
 
 public class Rook extends Piece {
-    private String color;
+    private final String color;
 
     public Rook(String color) {
         this.color = color;

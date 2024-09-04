@@ -35,21 +35,22 @@ public class Homescreen {
         JButton setUpPosition = new JButton("set up position");
         JButton exit = new JButton("Exit");
 
+        // action listener
         play.addActionListener(e -> play());
         setUpPosition.addActionListener(e -> setUpBoard());
         exit.addActionListener(e -> exit(0));
 
+        // add buttons to panel
         elmContTop.add(play);
         elmContBottom.add(setUpPosition);
         elmContBottom.add(exit);
 
+        // set grid of elements
+        labelContainer.add(mainLabel);
         gbc.gridy = 0;
         elementContainer.add(elmContTop, gbc);
-
         gbc.gridy = 1;
         elementContainer.add(elmContBottom, gbc);
-
-        labelContainer.add(mainLabel);
         gbc.gridx = 0;
         outerContainer.add(labelContainer);
         gbc.gridx = 1;
@@ -65,7 +66,7 @@ public class Homescreen {
         Play play = new Play();
         play.setFrame(frame);
         play.setStandardPGN();
-        play.setSpielfeld();
+        play.setPlayingField();
 
         frame.repaint();
     }

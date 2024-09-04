@@ -2,8 +2,9 @@ package Pieces;
 
 import java.util.ArrayList;
 
-public abstract class Piece{
+public abstract class Piece {
     private int[] position;
+    private int[] newPosition;
 
     private ArrayList<Integer>[] potentialPosition;
 
@@ -11,4 +12,11 @@ public abstract class Piece{
         return "";
     }
 
+    public void calculateMoves(int y, int x) {}
+
+    public ArrayList<int[]> getMoves() {
+        return null;
+    }
+
+    public void setPotentialPosition(int newy, int newx) {}
 }

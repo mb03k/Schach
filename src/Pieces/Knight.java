@@ -1,7 +1,7 @@
 package Pieces;
 
 public class Knight extends Piece {
-    private String color;
+    private final String color;
 
     public Knight(String color) {
         this.color = color;
