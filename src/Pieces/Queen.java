@@ -1,7 +1,13 @@
 package Pieces;
 
 public class Queen extends Piece {
-    public Queen(String color) {
+    private String color;
 
+    public Queen(String color) {
+        this.color = color;
+    }
+
+    public String getName() {
+        return "Q"+color;
     }
 }

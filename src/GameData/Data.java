@@ -50,7 +50,7 @@ public class Data {
 
     public static int[][] colorPGN = new int[][] {
         // 0 = schwarz; 1 = weiß; 2 = orange
-        {1, 0, 1, 0, 1, 0, 1, 0},
+        {1, 0, 1, 0, 2, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1},
         {1, 0, 1, 0, 1, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1},

@@ -7,7 +7,7 @@ public abstract class Piece{
 
     private ArrayList<Integer>[] potentialPosition;
 
-    public String getColor() {
+    public String getName() {
         return "";
     }
 

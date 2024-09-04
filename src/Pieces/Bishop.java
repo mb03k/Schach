@@ -1,11 +1,13 @@
 package Pieces;
 
 public class Bishop extends Piece {
+    public String color;
+
     public Bishop(String color) {
-        System.out.println("Bishop der Farbe "+color+" erstellt!");
+        this.color = color;
     }
 
-    public String getColor() {
-        return "white";
+    public String getName() {
+        return "B"+color;
     }
 }

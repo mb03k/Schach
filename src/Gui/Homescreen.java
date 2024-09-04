@@ -7,11 +7,12 @@ import static java.lang.System.exit;
 
 public class Homescreen {
 
-    private final JFrame frame;
-    private Play play;
+    private JFrame frame;
 
-    public Homescreen() {
-        this.frame = new Frame();
+    public Homescreen() {}
+
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
     }
 
     public void setHomescreen() {
@@ -48,7 +49,6 @@ public class Homescreen {
         gbc.gridy = 1;
         elementContainer.add(elmContBottom, gbc);
 
-
         labelContainer.add(mainLabel);
         gbc.gridx = 0;
         outerContainer.add(labelContainer);
@@ -61,9 +61,12 @@ public class Homescreen {
 
     public void play() {
         frame.getContentPane().removeAll();
-        play = new Play(frame);
+
+        Play play = new Play();
+        play.setFrame(frame);
         play.setStandardPGN();
         play.setSpielfeld();
+
         frame.repaint();
     }
 

@@ -5,93 +5,112 @@ import Pieces.*;
 import javax.swing.*;
 import java.awt.*;
 
+import static GameData.Data.colorPGN;
 import static GameData.Data.objectPGN;
+import static java.lang.System.exit;
 
 public class Play {
 
-    private final JFrame frame;
+    private JFrame frame;
     private int[][] pgn;
-    private JPanel checkerboard; // rauswerfen
+    private JPanel fieldButtonPanel;
 
     private JPanel[][] board;
 
-    public Play(JFrame frame) {
+    public Play() {}
+
+    public void setFrame(JFrame frame) {
         this.frame = frame;
     }
 
-    public void setStandardPGN() {
-        this.pgn = GameData.Data.pgn;
-    }
-
     public void setSpielfeld() {
-        setMenueBar();
+        setMenuBar();
         setzeSpielfeldGridLayout();
         board = new JPanel[8][8];
 
-        // Spielfeld (und Farben) erstellen
-        for (int i=0; i<8; i++) { // vertikal
-            for (int j=0; j<8; j++) { // horizontal
-                setSpielfeldInhalte(i, j);
+        // creates 64 squares with buttons and pieces
+        for (int y=0; y<8; y++) { // vertical
+            for (int x=0; x<8; x++) { // horizontal
+                setSpielfeldInhalte(y, x);
             }
         }
 
         frame.setVisible(true);
     }
 
-    public void setSpielfeldInhalte(int i, int j) {
+    public void setSpielfeldInhalte(int y, int x) {
+        setLayoutPieces(y, x);
+
         JPanel btnPanel = new JPanel();
+        String nameOfPiece = objectPGN[y][x].getName();
 
-        setLayoutPieces(i, j);
+        JButton spielfeldButtonListener = new JButton(nameOfPiece);
+        spielfeldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 25));
+        spielfeldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
 
-        JButton spielfeldButtonListener = new JButton(objectPGN[i][j].getColor());
+        // make button invisible
+        spielfeldButtonListener.setBorderPainted(false);
+        spielfeldButtonListener.setContentAreaFilled(false);
+        spielfeldButtonListener.setFocusPainted(false);
+        spielfeldButtonListener.setOpaque(false);
+
         btnPanel.add(spielfeldButtonListener);
-
-        checkerboard.add(btnPanel);
-
-        board[i][j] = btnPanel;
-        board[i][j].setLayout(new GridLayout());
+        board[y][x] = btnPanel;
+        board[y][x].setLayout(new GridLayout());
+        changeSquareColor(y, x);
+        fieldButtonPanel.add(btnPanel);
     }
 
-    public void setLayoutPieces(int i, int j) {
-        switch(pgn[i][j]) {
+    public void setLayoutPieces(int y, int x) {
+        switch(pgn[y][x]) {
             case 1:
-                objectPGN[i][j] = new Pawn("white");
+                objectPGN[y][x] = new Pawn("w");
                 break;
             case 2:
-                objectPGN[i][j] = new Bishop("white");
+                objectPGN[y][x] = new Bishop("w");
                 break;
             case 3:
-                objectPGN[i][j] = new Knight("white");
+                objectPGN[y][x] = new Knight("w");
                 break;
             case 4:
-                objectPGN[i][j] = new Rook("white");
+                objectPGN[y][x] = new Rook("w");
                 break;
             case 5:
-                objectPGN[i][j] = new Queen("white");
+                objectPGN[y][x] = new Queen("w");
                 break;
             case 6:
-                objectPGN[i][j] = new King("white");
+                objectPGN[y][x] = new King("w");
                 break;
             case -1:
-                objectPGN[i][j] = new Pawn("black");
+                objectPGN[y][x] = new Pawn("b");
                 break;
             case -2:
-                objectPGN[i][j] = new Bishop("black");
+                objectPGN[y][x] = new Bishop("b");
                 break;
             case -3:
-                objectPGN[i][j] = new Knight("black");
+                objectPGN[y][x] = new Knight("b");
                 break;
             case -4:
-                objectPGN[i][j] = new Rook("black");
+                objectPGN[y][x] = new Rook("b");
                 break;
             case -5:
-                objectPGN[i][j] = new Queen("black");
+                objectPGN[y][x] = new Queen("b");
                 break;
             case -6:
-                objectPGN[i][j] = new King("black");
+                objectPGN[y][x] = new King("b");
                 break;
             default:
-                objectPGN[i][j] = new EmptyField();
+                objectPGN[y][x] = new EmptyField();
+        }
+    }
+
+    public void changeSquareColor(int y, int x) {
+        if (colorPGN[y][x] == 0) {
+            board[y][x].setBackground(Color.GRAY);
+        } else if (colorPGN[y][x] == 1) {
+            board[y][x].setBackground(Color.LIGHT_GRAY);
+        } else if (colorPGN[y][x] == 2) {
+            board[y][x].setBackground(Color.ORANGE);
         }
     }
 
@@ -141,15 +160,15 @@ public class Play {
 
     public void erzeugeSpielfeldGUI(GridBagConstraints gbc) {
         // Spielfeld
-        checkerboard = new JPanel();
-        checkerboard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        checkerboard.setLayout(new GridLayout(8, 8));
-        checkerboard.setBackground(Color.DARK_GRAY);
+        fieldButtonPanel = new JPanel();
+        fieldButtonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        fieldButtonPanel.setLayout(new GridLayout(8, 8));
+        fieldButtonPanel.setBackground(Color.DARK_GRAY);
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        frame.add(checkerboard, gbc);
+        frame.add(fieldButtonPanel, gbc);
 
         // Raender erstellen
         JPanel linksRand = new JPanel();
@@ -169,7 +188,7 @@ public class Play {
         frame.add(rechtsRand, gbc);
     }
 
-    public void setMenueBar() {
+    public void setMenuBar() {
         JMenuBar menueLeiste = new JMenuBar();
         JMenu dateiMenue = new JMenu("Datei");
 
@@ -177,9 +196,9 @@ public class Play {
         JMenuItem startseite_menuItem = new JMenuItem("Startseite");
         JMenuItem beenden_menuItem = new JMenuItem("Beenden");
 
-        //speichern_menuItem.addActionListener(e -> spielSpeichern());
-        //startseite_menuItem.addActionListener(e -> setzeStartseite());
-        //beenden_menuItem.addActionListener(e -> spielBeenden());
+        speichern_menuItem.addActionListener(e -> saveGame());
+        startseite_menuItem.addActionListener(e -> setHomescreen());
+        beenden_menuItem.addActionListener(e -> quitGame());
 
         speichern_menuItem.setBackground(Color.decode("#92C7CF"));
         startseite_menuItem.setBackground(Color.decode("#AAD7D9"));
@@ -190,5 +209,26 @@ public class Play {
         dateiMenue.add(beenden_menuItem);
         menueLeiste.add(dateiMenue);
         frame.setJMenuBar(menueLeiste);
+    }
+
+    public void setStandardPGN() {
+        this.pgn = GameData.Data.pgn;
+    }
+
+    public void setHomescreen() {
+        frame.getContentPane().removeAll();
+        frame.setJMenuBar(null);
+        frame.repaint();
+        Homescreen sb = new Homescreen();
+        sb.setFrame(frame);
+        sb.setHomescreen();
+    }
+
+    public void saveGame() {
+
+    }
+
+    public void quitGame() {
+        exit(0);
     }
 }

@@ -1,7 +1,13 @@
 package Pieces;
 
 public class Rook extends Piece {
-    public Rook(String color) {
+    private String color;
 
+    public Rook(String color) {
+        this.color = color;
+    }
+
+    public String getName() {
+        return "R"+color;
     }
 }

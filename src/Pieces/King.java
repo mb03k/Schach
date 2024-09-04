@@ -7,7 +7,7 @@ public class King extends Piece {
         this.color = color;
     }
 
-    public String getColor() {
-        return color;
+    public String getName() {
+        return "K"+color;
     }
 }
