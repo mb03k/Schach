@@ -1,10 +1,11 @@
 package Logic;
 
+import Pieces.EmptyField;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static GameData.Data.pgn;
-import static GameData.Data.setColorPGN;
+import static GameData.Data.*;
 
 public class CalculateDiagonals {
 
@@ -46,7 +47,7 @@ public class CalculateDiagonals {
 
     public void calculateDiagonal(int yDirection, int xDirection) {
         try {
-            for (int i=0; i<8; i++) { // go up and right or left
+            for (int i=0; i<8; i++) {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
