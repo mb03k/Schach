@@ -32,7 +32,7 @@ public class Bishop extends Piece {
         CalculateDiagonals cd = new CalculateDiagonals();
         cd.setPosition(position);
         potentialMoves = cd.calculateDiagonal();
-
+        
         setColorPGN(potentialMoves);
 
         /*System.out.println("Möglichkeiten:");
@@ -41,7 +41,6 @@ public class Bishop extends Piece {
         }
         System.out.println(" -> "+potentialMoves.size());*/
     }
-
 
     @Override
     public ArrayList<int[]> getMoves() {
