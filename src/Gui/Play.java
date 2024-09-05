@@ -5,8 +5,7 @@ import Pieces.*;
 import javax.swing.*;
 import java.awt.*;
 
-import static GameData.Data.colorPGN;
-import static GameData.Data.objectPGN;
+import static GameData.Data.*;
 import static java.lang.System.exit;
 
 public class Play {
@@ -64,6 +63,9 @@ public class Play {
 
     public void setLayoutPieces(int y, int x) {
         switch(pgn[y][x]) {
+            case -1:
+                objectPGN[y][x] = new Pawn("b");
+                break;
             case 1:
                 objectPGN[y][x] = new Pawn("w");
                 break;
@@ -81,9 +83,6 @@ public class Play {
                 break;
             case 6:
                 objectPGN[y][x] = new King("w");
-                break;
-            case -1:
-                objectPGN[y][x] = new Pawn("b");
                 break;
             case -2:
                 objectPGN[y][x] = new Bishop("b");
@@ -118,6 +117,25 @@ public class Play {
                 break;
             default:
         }
+    }
+
+    public void markPotentialMovesWithColor() {
+        for (int i=0; i<8; i++) {
+            for (int j=0; j<8; j++) {
+                changeSquareColor(i,j);
+            }
+        }
+        frame.repaint();
+    }
+
+    public void clearPotentialMoveColor() {
+        setStandardColorPGN();
+        for (int i=0; i<8; i++) {
+            for (int j=0; j<8; j++) {
+                changeSquareColor(i,j);
+            }
+        }
+        frame.repaint();
     }
 
     public void setPlayingFieldGridLayout() {
@@ -218,11 +236,12 @@ public class Play {
 
     public void handlePieceClick(int y, int x) {
         if (pgn[y][x] == 0) {
-            objectPGN[y][x].setPotentialPosition(y, x);
+            objectPGN[y][x].setNewPosition(y, x);
         } else {
+            clearPotentialMoveColor();
             objectPGN[y][x].calculateMoves(y, x);
+            markPotentialMovesWithColor();
         }
-
     }
 
     public void setStandardPGN() {

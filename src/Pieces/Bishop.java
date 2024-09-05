@@ -5,12 +5,14 @@ import Logic.CalculateDiagonals;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static GameData.Data.setColorPGN;
+
 public class Bishop extends Piece {
     private final String color;
-    private ArrayList<int[]> potentialMoves;
+    private ArrayList<int[]> potentialMoves = new ArrayList<>();
 
-    private int[] position; // {y,x}
     private int[] newPosition; // {y,x}
+    private int[] position;
 
     public Bishop(String color) {
         this.color = color;
@@ -20,23 +22,24 @@ public class Bishop extends Piece {
         return "B"+color;
     }
 
-    public void setPotentialPosition(int newy, int newx) {
+    public void setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
     }
 
-
     public void calculateMoves(int y, int x) {
-        potentialMoves = new ArrayList<>();
-        this.position = new int[] {y, x};
+        position = new int[]{y, x};
 
-        CalculateDiagonals cd = new CalculateDiagonals(position);
+        CalculateDiagonals cd = new CalculateDiagonals();
+        cd.setPosition(position);
         potentialMoves = cd.calculateDiagonal();
 
-        System.out.println("Möglichkeiten:");
+        setColorPGN(potentialMoves);
+
+        /*System.out.println("Möglichkeiten:");
         for (int[] potentialMove : potentialMoves) {
             System.out.print(Arrays.toString(potentialMove));
         }
-        System.out.println(potentialMoves.size());
+        System.out.println(" -> "+potentialMoves.size());*/
     }
 
 

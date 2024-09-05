@@ -18,5 +18,5 @@ public abstract class Piece {
         return null;
     }
 
-    public void setPotentialPosition(int newy, int newx) {}
+    public void setNewPosition(int newy, int newx) {}
 }

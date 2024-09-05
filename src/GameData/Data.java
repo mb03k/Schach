@@ -2,6 +2,8 @@ package GameData;
 
 import Pieces.*;
 
+import java.util.ArrayList;
+
 public class Data {
     public static int[][] pgn = new int[][] {
         // -1 = Pawn black
@@ -50,7 +52,7 @@ public class Data {
 
     public static int[][] colorPGN = new int[][] {
         // 0 = schwarz; 1 = weiß; 2 = orange
-        {1, 0, 1, 0, 2, 0, 1, 0},
+        {1, 0, 1, 0, 1, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1},
         {1, 0, 1, 0, 1, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1},
@@ -59,4 +61,23 @@ public class Data {
         {1, 0, 1, 0, 1, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1}
     };
+
+    public static void setStandardColorPGN() {
+        colorPGN = new int[][] {
+            {1, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1}
+        };
+    }
+
+    public static void setColorPGN(ArrayList<int[]> colors) {
+        for (int[] color : colors) {
+            colorPGN[color[0]][color[1]] = 2;
+        }
+    }
 }
