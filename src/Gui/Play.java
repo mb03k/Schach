@@ -11,8 +11,8 @@ import static java.lang.System.exit;
 public class Play {
 
     private JFrame frame;
-    private int[][] pgn;
     private JPanel fieldButtonPanel;
+    private String currentPlayer;
 
     private JPanel[][] board;
 
@@ -30,19 +30,18 @@ public class Play {
         // creates 64 squares with buttons and pieces
         for (int y=0; y<8; y++) { // vertical
             for (int x=0; x<8; x++) { // horizontal
-                setSpielfeldInhalte(y, x);
+                addPlayingFieldContent(y, x);
             }
         }
 
         frame.setVisible(true);
     }
 
-    public void setSpielfeldInhalte(int y, int x) {
+    public void addPlayingFieldContent(int y, int x) {
         setLayoutPieces(y, x);
 
         JPanel btnPanel = new JPanel();
-        String nameOfPiece = objectPGN[y][x].getName();
-
+        String nameOfPiece = pgn[y][x].getName();
         JButton playingFieldButtonListener = new JButton(nameOfPiece);
         playingFieldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 25));
         playingFieldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -62,46 +61,7 @@ public class Play {
     }
 
     public void setLayoutPieces(int y, int x) {
-        switch(pgn[y][x]) {
-            case -1:
-                objectPGN[y][x] = new Pawn("b");
-                break;
-            case 1:
-                objectPGN[y][x] = new Pawn("w");
-                break;
-            case 2:
-                objectPGN[y][x] = new Bishop("w");
-                break;
-            case 3:
-                objectPGN[y][x] = new Knight("w");
-                break;
-            case 4:
-                objectPGN[y][x] = new Rook("w");
-                break;
-            case 5:
-                objectPGN[y][x] = new Queen("w");
-                break;
-            case 6:
-                objectPGN[y][x] = new King("w");
-                break;
-            case -2:
-                objectPGN[y][x] = new Bishop("b");
-                break;
-            case -3:
-                objectPGN[y][x] = new Knight("b");
-                break;
-            case -4:
-                objectPGN[y][x] = new Rook("b");
-                break;
-            case -5:
-                objectPGN[y][x] = new Queen("b");
-                break;
-            case -6:
-                objectPGN[y][x] = new King("b");
-                break;
-            default:
-                objectPGN[y][x] = new EmptyField();
-        }
+        Piece p = pgn[y][x];
     }
 
     public void changeSquareColor(int y, int x) {
@@ -115,6 +75,8 @@ public class Play {
             case 2:
                 board[y][x].setBackground(Color.ORANGE);
                 break;
+            case 3:
+                board[y][x].setBackground(Color.MAGENTA);
             default:
         }
     }
@@ -235,17 +197,13 @@ public class Play {
     }
 
     public void handlePieceClick(int y, int x) {
-        if (pgn[y][x] == 0) {
-            objectPGN[y][x].setNewPosition(y, x);
+        if (pgn[y][x] instanceof EmptyField) {
+            pgn[y][x].setNewPosition(y, x);
         } else {
             clearPotentialMoveColor();
-            objectPGN[y][x].calculateMoves(y, x);
+            pgn[y][x].calculateMoves(y, x);
             markPotentialMovesWithColor();
         }
-    }
-
-    public void setStandardPGN() {
-        this.pgn = GameData.Data.pgn;
     }
 
     public void setHomescreen() {
