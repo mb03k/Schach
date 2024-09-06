@@ -51,7 +51,7 @@ public class CalculateDiagonals {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
-                if (pgn[tempPosition[y]][tempPosition[x]] == 0) {
+                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                 }
             }

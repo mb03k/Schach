@@ -1,5 +1,7 @@
 package Logic;
 
+import Pieces.EmptyField;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -56,7 +58,7 @@ public class CalculateKnightJumps extends Logic {
 
     public void calculateMoves(int yDirection, int xDirection) {
         try {
-            if (pgn[tempPosition[y]+=yDirection][tempPosition[x]+=xDirection] == 0) {
+            if (pgn[tempPosition[y]+=yDirection][tempPosition[x]+=xDirection] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}

@@ -1,5 +1,7 @@
 package Logic;
 
+import Pieces.EmptyField;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,7 +47,7 @@ public class CalculateHorizontals extends Logic {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
-                if (pgn[tempPosition[y]][tempPosition[x]] == 0) {
+                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
             }
