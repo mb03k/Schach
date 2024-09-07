@@ -1,2 +1,4 @@
-package Logic;public class KingMoves {
+package Logic;
+
+public class KingMoves {
 }

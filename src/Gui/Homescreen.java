@@ -3,6 +3,7 @@ package Gui;
 import javax.swing.*;
 import java.awt.*;
 
+import static Gui.Play.setCurrentPlayer;
 import static java.lang.System.exit;
 
 public class Homescreen {
@@ -27,13 +28,13 @@ public class Homescreen {
         JPanel elmContTop = new JPanel (new GridLayout());
         JPanel elmContBottom = new JPanel(new GridLayout());
 
-        JLabel mainLabel = new JLabel("Chess", SwingConstants.CENTER);
+        JLabel mainLabel = new JLabel("Dame", SwingConstants.CENTER);
         mainLabel.setFont(new Font("Arial", Font.BOLD, 120));
         mainLabel.setForeground(Color.LIGHT_GRAY);
 
         JButton play = new JButton("Spielen");
-        JButton setUpPosition = new JButton("set up position");
-        JButton exit = new JButton("Exit");
+        JButton setUpPosition = new JButton("Position erstellen");
+        JButton exit = new JButton("Verlassen");
 
         // action listener
         play.addActionListener(e -> play());
@@ -65,7 +66,7 @@ public class Homescreen {
 
         Play play = new Play();
         play.setFrame(frame);
-        play.setStandardPGN();
+        setCurrentPlayer("w");
         play.setPlayingField();
 
         frame.repaint();

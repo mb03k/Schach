@@ -7,13 +7,13 @@ import java.util.Arrays;
 
 import static GameData.Data.pgn;
 
-public class CalculateKnightJumps extends Logic {
+public class KnightMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
 
-    public CalculateKnightJumps() {
+    public KnightMoves() {
         potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
     }

@@ -6,13 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 
 import static GameData.Data.*;
+import static Logic.CheckRequirements.checkSequenceAndCalculateMoves;
 import static java.lang.System.exit;
 
 public class Play {
 
     private JFrame frame;
     private JPanel fieldButtonPanel;
-    private String currentPlayer;
+    public static String currentPlayer;
+
+    public int[] oldPosition;
 
     private JPanel[][] board;
 
@@ -198,12 +201,21 @@ public class Play {
 
     public void handlePieceClick(int y, int x) {
         if (pgn[y][x] instanceof EmptyField) {
-            pgn[y][x].setNewPosition(y, x);
+            pgn[oldPosition[0]][oldPosition[1]].setNewPosition(oldPosition[0], oldPosition[1]); // has to be the old pgn
         } else {
+            oldPosition = new int[]{y, x};
             clearPotentialMoveColor();
-            pgn[y][x].calculateMoves(y, x);
+            checkSequenceAndCalculateMoves(y, x);
             markPotentialMovesWithColor();
         }
+    }
+
+    public static void setCurrentPlayer(String cp) {
+        currentPlayer = cp;
+    }
+
+    public static String getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public void setHomescreen() {

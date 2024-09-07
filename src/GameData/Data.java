@@ -38,7 +38,7 @@ public class Data {
     }
 
     public static Piece[][] pgn = new Piece[][]{
-        {new Rook("b"), new Knight("b"), new Bishop("b"), new Queen("b"), new King("b"), new Bishop("b"), new Knight("b"), new Rook("b")},
+        /*{new Rook("b"), new Knight("b"), new Bishop("b"), new Queen("b"), new King("b"), new Bishop("b"), new Knight("b"), new Rook("b")},
         {new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b")},
         {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
         {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
@@ -46,5 +46,14 @@ public class Data {
         {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
         {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w")},
         {new Rook("w"), new Knight("w"), new Bishop("w"), new Queen("w"), new King("w"), new Bishop("w"), new Knight("w"), new Rook("w")}
+    */
+            {new Rook("b"), new Knight("b"), new Bishop("b"), new Queen("b"), new King("b"), new Bishop("b"), new Knight("b"), new Rook("b")},
+            {new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b"), new Pawn("b")},
+            {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
+            {new Bishop("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
+            {new EmptyField(), new Knight("w"), new Bishop("w"), new Pawn("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
+            {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
+            {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w")},
+            {new Rook("w"), new Knight("w"), new Bishop("w"), new Queen("w"), new King("w"), new Bishop("w"), new Knight("w"), new Rook("w")}
     };
 }
