@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static GameData.Data.*;
+import static Logic.Logic.newPieceIsSameColor;
+import static Logic.Logic.whitesMove;
 
 public class CalculateDiagonals {
 
@@ -51,8 +53,19 @@ public class CalculateDiagonals {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
+                // same color on the diagonal (cant move further)
+                if (whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                    break;
+                } else if (!whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                    break;
+                }
+
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
+                }
+
+                if (whitesMove() && !newPieceIsSameColor(tempPosition, y, x)) {
+                    potentialMovesStorage.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
