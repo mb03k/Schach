@@ -10,4 +10,7 @@ public class King extends Piece {
     public String getName() {
         return "K"+color;
     }
+
+    public String getColor() {return this.color;}
+
 }

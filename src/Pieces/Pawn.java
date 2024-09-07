@@ -1,36 +1,39 @@
 package Pieces;
 
 import Logic.CalculateHorizontals;
+import Logic.PawnMoves;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import static GameData.Data.setColorPGN;
 
 public class Pawn extends Piece {
     private int[] position;
     private final String color;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private boolean firstMoveTwoSteps;
 
     public Pawn(String color) {
         this.color = color;
+        firstMoveTwoSteps = true;
     }
 
     public String getName() {
         return "P"+color;
     }
 
-    public void calculateMoves(int y, int x) {
+    public String getColor() {return this.color;}
+
+    public boolean getFirstMoveTwoSteps() {
+        return this.firstMoveTwoSteps;
+    }
+
+    public void calculateAndMarkMoves(int y, int x) {
         position = new int[]{y, x};
 
-        CalculateHorizontals ch = new CalculateHorizontals();
-        ch.setPosition(position);
-        potentialMoves = ch.calculateHorizontals();
-        System.out.println("Möglichkeiten:");
-        for (int[] potentialMove : potentialMoves) {
-            System.out.print(Arrays.toString(potentialMove));
-        }
-        System.out.println(" -> "+potentialMoves.size());
+        PawnMoves pm = new PawnMoves();
+        pm.setPosition(position);
+        potentialMoves = pm.calculateMoves();
+
         setColorPGN(potentialMoves);
     }
 }

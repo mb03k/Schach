@@ -1,9 +1,7 @@
 package Pieces;
 
 import Logic.CalculateHorizontals;
-
 import java.util.ArrayList;
-
 import static GameData.Data.setColorPGN;
 
 public class Rook extends Piece {
@@ -19,7 +17,9 @@ public class Rook extends Piece {
         return "R"+color;
     }
 
-    public void calculateMoves(int y, int x) {
+    public String getColor() {return this.color;}
+
+    public void calculateAndMarkMoves(int y, int x) {
         position = new int[]{y,x};
 
         CalculateHorizontals ch = new CalculateHorizontals();

@@ -1,10 +1,7 @@
 package Pieces;
 
-import Logic.CalculateHorizontals;
-import Logic.CalculateKnightJumps;
-
+import Logic.KnightMoves;
 import java.util.ArrayList;
-
 import static GameData.Data.setColorPGN;
 
 public class Knight extends Piece {
@@ -17,13 +14,15 @@ public class Knight extends Piece {
     }
 
     public String getName() {
-        return "R"+color;
+        return "N"+color;
     }
 
-    public void calculateMoves(int y, int x) {
+    public String getColor() {return this.color;}
+
+    public void calculateAndMarkMoves(int y, int x) {
         position = new int[]{y,x};
 
-        CalculateKnightJumps ck = new CalculateKnightJumps();
+        KnightMoves ck = new KnightMoves();
         ck.setPosition(position);
         potentialMoves = ck.calculateMoves();
 

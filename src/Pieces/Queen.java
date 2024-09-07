@@ -10,4 +10,6 @@ public class Queen extends Piece {
     public String getName() {
         return "Q"+color;
     }
+
+    public String getColor() {return this.color;}
 }
