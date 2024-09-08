@@ -201,13 +201,29 @@ public class Play {
 
     public void handlePieceClick(int y, int x) {
         if (pgn[y][x] instanceof EmptyField) {
-            pgn[oldPosition[0]][oldPosition[1]].setNewPosition(oldPosition[0], oldPosition[1]); // has to be the old pgn
+            // if piece can move
+            if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
+                clearPotentialMoveColor();
+
+                pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
+                pgn[oldPosition[0]][oldPosition[1]] = new EmptyField(); // old field
+
+                paintPlayingFieldAfterTake(y, x);
+            }
+
         } else {
             oldPosition = new int[]{y, x};
             clearPotentialMoveColor();
             checkSequenceAndCalculateMoves(y, x);
             markPotentialMovesWithColor();
         }
+    }
+
+    public void paintPlayingFieldAfterTake(int y, int x) {
+        frame.getContentPane().removeAll();
+        frame.setJMenuBar(null);
+        frame.repaint();
+        setPlayingField();
     }
 
     public static void setCurrentPlayer(String cp) {

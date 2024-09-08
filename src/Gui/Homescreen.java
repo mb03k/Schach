@@ -66,7 +66,7 @@ public class Homescreen {
 
         Play play = new Play();
         play.setFrame(frame);
-        setCurrentPlayer("w");
+        setCurrentPlayer("b");
         play.setPlayingField();
 
         frame.repaint();
