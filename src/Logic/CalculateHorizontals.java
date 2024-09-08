@@ -41,7 +41,7 @@ public class CalculateHorizontals extends Logic {
         return potentialMovesStorage;
     }
 
-    public void calculateHorizontals(int yDirection, int xDirection) {
+    private void calculateHorizontals(int yDirection, int xDirection) {
         try {
             for (int i=0; i<8; i++) {
                 tempPosition[y] += yDirection;

@@ -27,36 +27,26 @@ public class KnightMoves extends Logic {
     }
 
     public ArrayList<int[]> calculateMoves() {
+        int[][] drc = new int[][] {
+                {-2,1}, // top right
+                {-2,-1}, // top left
+                {-1,2}, // right top
+                {1,2}, // right bottom
+                {2,1}, // bottom right
+                {2,-1}, // bottom left
+                {1,-2}, // left top
+                {-1,-2}, // left bottom
+        };
 
-        // can be simplified with for (i guess)
-        setTempPosition();
-        calculateMoves(-2, 1); // top right
-
-        setTempPosition();
-        calculateMoves(-2, -1); // top left
-
-        setTempPosition();
-        calculateMoves(-1, 2); // right top
-
-        setTempPosition();
-        calculateMoves(1, 2); // right bottom
-
-        setTempPosition();
-        calculateMoves(2, 1); // bottom right
-
-        setTempPosition();
-        calculateMoves(2, -1); // bottom left
-
-        setTempPosition();
-        calculateMoves(1, -2); // left top
-
-        setTempPosition();
-        calculateMoves(-1, -2); // left bottom
+        for (int i=0; i<8; i++) {
+            setTempPosition();
+            calculateMoves(drc[i][0], drc[i][1]);
+        }
 
         return potentialMovesStorage;
     }
 
-    public void calculateMoves(int yDirection, int xDirection) {
+    private void calculateMoves(int yDirection, int xDirection) {
         try {
             if (pgn[tempPosition[y]+=yDirection][tempPosition[x]+=xDirection] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});

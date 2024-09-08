@@ -29,17 +29,16 @@ public class PawnMoves extends Logic {
     public ArrayList<int[]> calculateMoves() {
 
         if (pawnIsWhite()) {
-
             setTempPosition();
             calculateMoves(-1, 0);
-
-            setTempPosition();
-            calculateMoves(1, 0);
-
             if (firstPawnMove()) {
                 setTempPosition();
                 calculateMoves(-2, 0);
-
+            }
+        } else {
+            setTempPosition();
+            calculateMoves(1, 0);
+            if (firstPawnMove()) {
                 setTempPosition();
                 calculateMoves(2, 0);
             }
@@ -47,7 +46,7 @@ public class PawnMoves extends Logic {
         return potentialMovesStorage;
     }
 
-    public void calculateMoves(int yDirection, int xDirection) {
+    private void calculateMoves(int yDirection, int xDirection) {
         tempPosition[y] += yDirection;
         tempPosition[x] += xDirection;
         try {

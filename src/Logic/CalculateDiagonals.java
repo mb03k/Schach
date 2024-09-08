@@ -47,16 +47,20 @@ public class CalculateDiagonals {
         return potentialMovesStorage;
     }
 
-    public void calculateDiagonal(int yDirection, int xDirection) {
+    private void calculateDiagonal(int yDirection, int xDirection) {
         try {
             for (int i=0; i<8; i++) {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
+                System.out.println("position: "+tempPosition[y]+"-"+tempPosition[x]);
+
                 // same color on the diagonal (cant move further)
                 if (whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                    System.out.println("break");
                     break;
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                    System.out.println("break");
                     break;
                 }
 
