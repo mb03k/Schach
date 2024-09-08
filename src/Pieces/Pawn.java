@@ -5,9 +5,11 @@ import Logic.PawnMoves;
 
 import java.util.ArrayList;
 import static GameData.Data.setColorPGN;
+import static Logic.CheckRequirements.takePiece;
 
 public class Pawn extends Piece {
     private int[] position;
+    private int[] newPosition;
     private final String color;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private boolean firstMoveTwoSteps;
@@ -25,6 +27,12 @@ public class Pawn extends Piece {
 
     public boolean getFirstMoveTwoSteps() {
         return this.firstMoveTwoSteps;
+    }
+
+    public boolean setNewPosition(int newy, int newx) {
+        this.newPosition = new int[] {newy, newx};
+
+        return takePiece(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {

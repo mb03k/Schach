@@ -2,6 +2,7 @@ package Pieces;
 
 import Logic.CalculateDiagonals;
 import java.util.ArrayList;
+
 import static GameData.Data.setColorPGN;
 import static Logic.CheckRequirements.takePiece;
 
@@ -25,11 +26,10 @@ public class Bishop extends Piece {
 
         return this.color;}
 
-    public void setNewPosition(int newy, int newx) {
-        System.out.println("nwenis");
+    public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        takePiece(newPosition, potentialMoves);
+        return takePiece(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {

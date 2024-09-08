@@ -18,7 +18,7 @@ public abstract class Piece {
         return null;
     }
 
-    public void setNewPosition(int newy, int newx) {}
+    public boolean setNewPosition(int newy, int newx) {return false;}
 
     public String getColor() {
         return "";
