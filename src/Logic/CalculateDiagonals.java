@@ -53,14 +53,10 @@ public class CalculateDiagonals {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
-                System.out.println("position: "+tempPosition[y]+"-"+tempPosition[x]);
-
                 // same color on the diagonal (cant move further)
                 if (whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
-                    System.out.println("break");
                     break;
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
-                    System.out.println("break");
                     break;
                 }
 
