@@ -27,4 +27,8 @@ public abstract class Piece {
     public boolean getFirstMoveTwoSteps() {
         return false;
     }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return null;
+    }
 }

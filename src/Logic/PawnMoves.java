@@ -56,11 +56,11 @@ public class PawnMoves extends Logic {
         } catch (ArrayIndexOutOfBoundsException ignored) {}
     }
 
-    public boolean pawnIsWhite() {
+    private boolean pawnIsWhite() {
         return pgn[position[y]][position[x]].getColor().equals("w");
     }
 
-    public boolean firstPawnMove() {
+    private boolean firstPawnMove() {
         return pgn[position[y]][position[x]].getFirstMoveTwoSteps();
     }
 }

@@ -5,13 +5,14 @@ import Logic.PawnMoves;
 
 import java.util.ArrayList;
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.takePiece;
+import static Logic.CheckRequirements.checkPieceTake;
 
 public class Pawn extends Piece {
     private int[] position;
     private int[] newPosition;
     private final String color;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private ArrayList<int[]> potentialTakes = new ArrayList<>();
     private boolean firstMoveTwoSteps;
 
     public Pawn(String color) {
@@ -29,10 +30,14 @@ public class Pawn extends Piece {
         return this.firstMoveTwoSteps;
     }
 
+    public void setFirstMoveTwoStepsFalse() {
+        this.firstMoveTwoSteps = false;
+    }
+
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return takePiece(newPosition, potentialMoves);
+        return checkPieceTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -42,6 +47,11 @@ public class Pawn extends Piece {
         pm.setPosition(position);
         potentialMoves = pm.calculateMoves();
 
-        setColorPGN(potentialMoves);
+        setColorPGN(potentialMoves, 2);
+        setColorPGN(potentialTakes, 3);
+    }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return this.potentialTakes;
     }
 }

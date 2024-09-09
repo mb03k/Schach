@@ -4,16 +4,16 @@ import Logic.CalculateDiagonals;
 import Logic.CalculateHorizontals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.takePiece;
+import static Logic.CheckRequirements.checkPieceTake;
 
 public class Queen extends Piece {
     private final String color;
     private int[] position;
     private int[] newPosition;
-    private ArrayList<int[]> potentialMoves;
+    private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
     public Queen(String color) {
         this.color = color;
@@ -28,7 +28,7 @@ public class Queen extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return takePiece(newPosition, potentialMoves);
+        return checkPieceTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -49,6 +49,11 @@ public class Queen extends Piece {
         potentialMoves.addAll(potentialDiagonals);
         potentialMoves.addAll(potentialHorizontals);
 
-        setColorPGN(potentialMoves);
+        setColorPGN(potentialMoves, 2);
+        setColorPGN(potentialTakes, 3);
+    }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return this.potentialTakes;
     }
 }

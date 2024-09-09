@@ -52,4 +52,8 @@ public class Bishop extends Piece {
     public ArrayList<int[]> getMoves() {
         return potentialMoves;
     }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return this.potentialTakes;
+    }
 }

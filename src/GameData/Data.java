@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Data {
     public static int[][] colorPGN = new int[][] {
-        // 0 = schwarz; 1 = weiß; 2 = orange; 3 = red/magenta/...
+        // 0 = black; 1 = white; 2 = orange; 3 = red
         {1, 0, 1, 0, 1, 0, 1, 0},
         {0, 1, 0, 1, 0, 1, 0, 1},
         {1, 0, 1, 0, 1, 0, 1, 0},
@@ -31,10 +31,12 @@ public class Data {
         };
     }
 
-    public static void setColorPGN(ArrayList<int[]> colors) {
-        for (int[] color : colors) {
-            colorPGN[color[0]][color[1]] = 2;
-        }
+    public static void setColorPGN(ArrayList<int[]> colors, int whichColor) {
+        try {
+            for (int[] color : colors) {
+                colorPGN[color[0]][color[1]] = whichColor;
+            }
+        } catch (NullPointerException e) {}
     }
 
     public static Piece[][] pgn = new Piece[][]{
@@ -53,7 +55,7 @@ public class Data {
             {new Bishop("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
             {new EmptyField(), new Knight("w"), new Bishop("w"), new Pawn("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
             {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
-            {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w")},
+            {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new EmptyField()},
             {new Rook("w"), new Knight("w"), new Bishop("w"), new Queen("w"), new King("w"), new Bishop("w"), new Knight("w"), new Rook("w")}
     };
 }

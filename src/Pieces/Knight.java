@@ -3,12 +3,13 @@ package Pieces;
 import Logic.KnightMoves;
 import java.util.ArrayList;
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.takePiece;
+import static Logic.CheckRequirements.checkPieceTake;
 
 public class Knight extends Piece {
     private final String color;
     private int[] position;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private ArrayList<int[]> potentialTakes = new ArrayList<>();
     private int[] newPosition;
 
     public Knight(String color) {
@@ -24,7 +25,7 @@ public class Knight extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return takePiece(newPosition, potentialMoves);
+        return checkPieceTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -34,6 +35,11 @@ public class Knight extends Piece {
         ck.setPosition(position);
         potentialMoves = ck.calculateMoves();
 
-        setColorPGN(potentialMoves);
+        setColorPGN(potentialMoves, 2);
+        setColorPGN(potentialTakes, 3);
+    }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return this.potentialTakes;
     }
 }

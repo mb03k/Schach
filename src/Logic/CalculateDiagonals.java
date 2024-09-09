@@ -46,10 +46,6 @@ public class CalculateDiagonals {
         return potentialMovesStorage;
     }
 
-    public ArrayList<int[]> getPossibleTakesOfPieces() {
-        return possibleTakesOfPieces;
-    }
-
     private void calculateDiagonal(int yDirection, int xDirection) {
         try {
             for (int i=0; i<8; i++) {
@@ -57,19 +53,23 @@ public class CalculateDiagonals {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                if (whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
-                } else if (!whitesMove() && newPieceIsSameColor(tempPosition, y, x)) {
+                } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 }
 
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (!whitesMove() && !newPieceIsSameColor(tempPosition, y, x)) {
+                } else if (whitesMove() && !newPieceIsSameColor(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     break;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
+    }
+
+    public ArrayList<int[]> getPossibleTakesOfPieces() {
+        return possibleTakesOfPieces;
     }
 }

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static GameData.Data.*;
-import static Logic.CheckRequirements.checkSequenceAndCalculateMoves;
+import static Logic.CheckRequirements.*;
 import static java.lang.System.exit;
 
 public class Play {
@@ -200,26 +200,50 @@ public class Play {
     }
 
     public void handlePieceClick(int y, int x) {
+
+        // man prüft erst ob die potentialTakes - Indizes mit denen hier übereinstimmen
+        // -> dafür muss man das alte Objekt (Figur) speichern, damit man darauf zugreifen kann
+
+        // oder die wshl. sinnvollere Methode: mit einner vorherigen Farbabfrage bestimmen
         if (pgn[y][x] instanceof EmptyField) {
             // if piece can move
+            clearPotentialMoveColor();
             if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
-                clearPotentialMoveColor();
 
                 pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
                 pgn[oldPosition[0]][oldPosition[1]] = new EmptyField(); // old field
 
-                paintPlayingFieldAfterTake(y, x);
+                paintPlayingFieldAfterTake();
             }
-
         } else {
-            oldPosition = new int[]{y, x};
-            clearPotentialMoveColor();
-            checkSequenceAndCalculateMoves(y, x);
-            markPotentialMovesWithColor();
+            // check if its the colors move
+            if (pgn[y][x].getColor().equals("w") && currentPlayer.equals("b")) {
+                checkPieceTake(new int[]{y,x}, pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes());
+                System.out.println("NEEEE");
+                clearPotentialMoveColor();
+                checkSequenceAndCalculateMoves(y, x);
+                markPotentialMovesWithColor();
+                oldPosition = new int[]{y, x};
+            }
+            else {
+
+                // Ziel: schlagen einfügen
+                // hier liegt der Fehler. Wenn man checkIfPieceTake aufruft, prüft man immer die falschen Werte
+                // bzw. die Abfrage selbst ergibt keinen Sinn
+                clearPotentialMoveColor();
+
+                checkSequenceAndCalculateMoves(y, x);
+
+                try {checkIfPieceTake(oldPosition[0],oldPosition[1]);}
+                catch(NullPointerException ignored){}
+
+                markPotentialMovesWithColor();
+                oldPosition = new int[]{y, x};
+            }
         }
     }
 
-    public void paintPlayingFieldAfterTake(int y, int x) {
+    public void paintPlayingFieldAfterTake() {
         frame.getContentPane().removeAll();
         frame.setJMenuBar(null);
         frame.repaint();
