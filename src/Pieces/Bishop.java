@@ -4,11 +4,13 @@ import Logic.CalculateDiagonals;
 import java.util.ArrayList;
 
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.takePiece;
+import static Logic.CheckRequirements.checkPieceMoves;
+import static Logic.CheckRequirements.checkPieceTake;
 
 public class Bishop extends Piece {
     private final String color;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
     private int[] newPosition; // {y,x}
     private int[] position;
@@ -22,14 +24,16 @@ public class Bishop extends Piece {
     }
 
     public String getColor() {
-        System.out.println("Color: "+color);
-
         return this.color;}
 
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return takePiece(newPosition, potentialMoves);
+        // return if piece can move or if piece can be taken
+        if (!checkPieceMoves(newPosition, potentialMoves)) {
+            return checkPieceTake(newPosition, potentialTakes);
+        }
+        return true;
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -38,8 +42,10 @@ public class Bishop extends Piece {
         CalculateDiagonals cd = new CalculateDiagonals();
         cd.setPosition(position);
         potentialMoves = cd.calculateDiagonal();
+        potentialTakes = cd.getPossibleTakesOfPieces();
 
-        setColorPGN(potentialMoves);
+        setColorPGN(potentialMoves, 2);
+        setColorPGN(potentialTakes, 3);
     }
 
     @Override
