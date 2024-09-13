@@ -204,7 +204,7 @@ public class Play {
         // man prüft erst ob die potentialTakes - Indizes mit denen hier übereinstimmen
         // -> dafür muss man das alte Objekt (Figur) speichern, damit man darauf zugreifen kann
 
-        // oder die wshl. sinnvollere Methode: mit einner vorherigen Farbabfrage bestimmen
+        // oder die wshl. sinnvollere Methode: mit einer vorherigen Farbabfrage bestimmen
         if (pgn[y][x] instanceof EmptyField) {
             // if piece can move
             clearPotentialMoveColor();
@@ -216,13 +216,23 @@ public class Play {
                 paintPlayingFieldAfterTake();
             }
         } else {
+            // hier prüfen ob der spieler dran ist und die Figur schlagen darf. Wenn ja, die Methode aufrufen. Sonst
+            // will er ja mit der anderen Figur bewegen
+
             // check if its the colors move
-            if (pgn[y][x].getColor().equals("w") && currentPlayer.equals("b")) {
-                checkPieceTake(new int[]{y,x}, pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes());
-                System.out.println("NEEEE");
+            if (pgn[y][x].getColor().equals("b") && currentPlayer.equals("w")) {
+                checkPieceTake(new int[]{y,x}, oldPosition);
+
+                for (int[] moves : pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes()) {
+                    System.out.println(moves[0]+"-"+moves[1]);
+                }
+
+                System.out.println("oldPosition:" +oldPosition[0]+"-"+oldPosition[1]);
+
                 clearPotentialMoveColor();
                 checkSequenceAndCalculateMoves(y, x);
                 markPotentialMovesWithColor();
+
                 oldPosition = new int[]{y, x};
             }
             else {

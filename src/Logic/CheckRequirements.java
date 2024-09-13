@@ -48,9 +48,20 @@ public class CheckRequirements {
         }
         return false;
     }
-    public static boolean checkPieceTake(int[] newPosition, ArrayList<int[]> potentialTakes) {
-        for (int[] move : potentialTakes) {
+    public static boolean checkPieceTake(int[] newPosition, int[] potentialPosition) {
+        for (int[] move : pgn[potentialPosition[0]][potentialPosition[1]].getPotentialTakes()) {
             if (Arrays.equals(move, newPosition)) {
+                System.out.println("Figur auf "+newPosition[0]+"-"+newPosition[1]+" von "+move[0]+"-"+move[1]+" schlagbar");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkPieceTake(int[] newPosition, ArrayList<int[]> potentialPosition) {
+        for (int[] move : potentialPosition) {
+            if (Arrays.equals(move, newPosition)) {
+                System.out.println("Figur auf "+newPosition[0]+"-"+newPosition[1]+" von "+move[0]+"-"+move[1]+" schlagbar");
                 return true;
             }
         }
