@@ -8,3 +8,4 @@ To-Do:
 - [X] pgn mit objectPGN ersetzen -> erlöst die switch case mit 12 Abfragen
 - [ ] PGN erstellen lassen (nachdem die Logik selbst zuende ist...)
 - [ ] Stockfish (o.Ä. KI) einbauen
+- [ ] bei doppelklick auf Figur die potentiellen Züge entfernen (nicht mehr markieren lassen)
