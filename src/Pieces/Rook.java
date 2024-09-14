@@ -7,6 +7,7 @@ import static Logic.CheckRequirements.checkPieceTake;
 
 public class Rook extends Piece {
     private final String color;
+    private final char ui;
     private int[] position;
     private int[] newPosition;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
@@ -14,6 +15,16 @@ public class Rook extends Piece {
 
     public Rook(String color) {
         this.color = color;
+
+        if (color.equals("w")) {
+            ui = '♖';
+        } else {
+            ui = '♜';
+        }
+    }
+
+    public char getUi() {
+        return this.ui;
     }
 
     public String getName() {

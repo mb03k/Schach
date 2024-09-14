@@ -31,4 +31,8 @@ public abstract class Piece {
     public ArrayList<int[]> getPotentialTakes() {
         return null;
     }
+
+    public char getUi() {
+        return 'e';
+    }
 }

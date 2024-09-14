@@ -9,6 +9,7 @@ import static Logic.CheckRequirements.checkPieceTake;
 
 public class Pawn extends Piece {
     private int[] position;
+    private final char ui;
     private int[] newPosition;
     private final String color;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
@@ -17,7 +18,16 @@ public class Pawn extends Piece {
 
     public Pawn(String color) {
         this.color = color;
-        firstMoveTwoSteps = true;
+
+        if (color.equals("w")) {
+            ui = '♙';
+        } else {
+            ui = '♟';
+        }
+    }
+
+    public char getUi() {
+        return this.ui;
     }
 
     public String getName() {

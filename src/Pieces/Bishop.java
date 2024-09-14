@@ -9,6 +9,7 @@ import static Logic.CheckRequirements.checkPieceTake;
 
 public class Bishop extends Piece {
     private final String color;
+    private final char ui;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
@@ -17,6 +18,16 @@ public class Bishop extends Piece {
 
     public Bishop(String color) {
         this.color = color;
+
+        if (color.equals("w")) {
+            ui = '♗';
+        } else {
+            ui = '♝';
+        }
+    }
+
+    public char getUi() {
+        return this.ui;
     }
 
     public String getName() {

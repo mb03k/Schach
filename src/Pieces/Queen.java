@@ -10,6 +10,7 @@ import static Logic.CheckRequirements.checkPieceTake;
 
 public class Queen extends Piece {
     private final String color;
+    private final char ui;
     private int[] position;
     private int[] newPosition;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
@@ -17,6 +18,16 @@ public class Queen extends Piece {
 
     public Queen(String color) {
         this.color = color;
+
+        if (color.equals("w")) {
+            ui = '♕';
+        } else {
+            ui = '♛';
+        }
+    }
+
+    public char getUi() {
+        return this.ui;
     }
 
     public String getName() {
