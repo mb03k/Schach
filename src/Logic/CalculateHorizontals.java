@@ -12,10 +12,12 @@ public class CalculateHorizontals extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
+    private ArrayList<int[]> possibleTakesOfPieces ;
 
     public CalculateHorizontals() {
         potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
+        possibleTakesOfPieces = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -50,7 +52,25 @@ public class CalculateHorizontals extends Logic {
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
+
+                // same color on the diagonal (cant move further)
+                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
+                    break;
+                } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
+                    break;
+                }
+
+                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+                    potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
+                } else if (whitesMove() && !newPieceIsSameColor(tempPosition)) {
+                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    break;
+                }
             }
         } catch(ArrayIndexOutOfBoundsException ignored) {}
+    }
+
+    public ArrayList<int[]> getPossibleTakesOfPieces() {
+        return this.possibleTakesOfPieces;
     }
 }
