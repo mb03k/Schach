@@ -45,6 +45,7 @@ public class Knight extends Piece {
         KnightMoves ck = new KnightMoves();
         ck.setPosition(position);
         potentialMoves = ck.calculateMoves();
+        potentialTakes = ck.getPossibleTakesOfPieces();
 
         setColorPGN(potentialMoves, 2);
         setColorPGN(potentialTakes, 3);
