@@ -9,3 +9,4 @@ To-Do:
 - [ ] PGN erstellen lassen (nachdem die Logik selbst zuende ist...)
 - [ ] Stockfish (o.Ä. KI) einbauen
 - [ ] bei doppelklick auf Figur die potentiellen Züge entfernen (nicht mehr markieren lassen)
+- [ ] BUG: potentielle Schläge der Dame werden bei einer großen Auswahl - wie soll ich das beschreiben... sehr komisch (?)
