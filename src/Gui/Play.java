@@ -4,9 +4,11 @@ import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 import static GameData.Data.*;
 import static Logic.CheckRequirements.*;
+import static java.lang.String.valueOf;
 import static java.lang.System.exit;
 
 public class Play {
@@ -15,7 +17,7 @@ public class Play {
     private JPanel fieldButtonPanel;
     public static String currentPlayer;
 
-    public int[] oldPosition;
+    public int[] oldPosition = new int[2];
 
     private JPanel[][] board;
 
@@ -41,12 +43,17 @@ public class Play {
     }
 
     public void addPlayingFieldContent(int y, int x) {
-        setLayoutPieces(y, x);
-
         JPanel btnPanel = new JPanel();
-        String nameOfPiece = pgn[y][x].getName();
-        JButton playingFieldButtonListener = new JButton(nameOfPiece);
-        playingFieldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 25));
+        JButton playingFieldButtonListener;
+
+        char nameOfPiece = pgn[y][x].getUi();
+        if (nameOfPiece == 'e') {
+            playingFieldButtonListener = new JButton();
+        } else {
+            playingFieldButtonListener = new JButton(valueOf(nameOfPiece));
+        }
+
+        playingFieldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 50));
         playingFieldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
         playingFieldButtonListener.addActionListener(e -> handlePieceClick(y, x));
 
@@ -61,10 +68,6 @@ public class Play {
         board[y][x].setLayout(new GridLayout());
         changeSquareColor(y, x);
         fieldButtonPanel.add(btnPanel);
-    }
-
-    public void setLayoutPieces(int y, int x) {
-        Piece p = pgn[y][x];
     }
 
     public void changeSquareColor(int y, int x) {
@@ -132,14 +135,14 @@ public class Play {
     public void setzeSpielfeldMarkierungen(JPanel letterPanel, JPanel numberPanel) {
         // Panel for labels (A-H)
         for (int iterator = 0; iterator < 8; iterator++) {
-            JLabel letterLabel = new JLabel(String.valueOf((char) ('a' + iterator)), SwingConstants.CENTER);
+            JLabel letterLabel = new JLabel(valueOf((char) ('a' + iterator)), SwingConstants.CENTER);
             letterLabel.setForeground(Color.WHITE);
             letterLabel.setFont(new Font("Arial", Font.BOLD, 20));
             letterPanel.add(letterLabel);
         }
         // Panel for labels (1-8)
         for (int num=8; num>0; num--) {
-            JLabel numberLabel = new JLabel(String.valueOf(num), SwingConstants.CENTER);
+            JLabel numberLabel = new JLabel(valueOf(num), SwingConstants.CENTER);
             numberLabel.setForeground(Color.WHITE);
             numberLabel.setFont(new Font("Arial", Font.BOLD, 20));
             numberLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Abstand Rand
@@ -200,14 +203,10 @@ public class Play {
     }
 
     public void handlePieceClick(int y, int x) {
-
-        // man prüft erst ob die potentialTakes - Indizes mit denen hier übereinstimmen
-        // -> dafür muss man das alte Objekt (Figur) speichern, damit man darauf zugreifen kann
-
-        // oder die wshl. sinnvollere Methode: mit einer vorherigen Farbabfrage bestimmen
+        // player wants to move
         if (pgn[y][x] instanceof EmptyField) {
-            // if piece can move
             clearPotentialMoveColor();
+            // if piece can move
             if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
 
                 pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
@@ -215,47 +214,38 @@ public class Play {
 
                 paintPlayingFieldAfterTake();
             }
-        } else {
-            // hier prüfen ob der spieler dran ist und die Figur schlagen darf. Wenn ja, die Methode aufrufen. Sonst
-            // will er ja mit der anderen Figur bewegen
-
-            // check if its the colors move
-            if (pgn[y][x].getColor().equals("b") && currentPlayer.equals("w")) {
-                checkPieceTake(new int[]{y,x}, oldPosition);
-
-                for (int[] moves : pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes()) {
-                    System.out.println(moves[0]+"-"+moves[1]);
+        } else { // player wants to take or calculate moves
+            if (playerWantsToTake(y, x)) {
+                clearPotentialMoveColor();
+                if (checkPieceTake(new int[]{y,x}, oldPosition)) {
+                    pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]];
+                    pgn[oldPosition[0]][oldPosition[1]] = new EmptyField();
+                    paintPlayingFieldAfterTake();
                 }
-
-                System.out.println("oldPosition:" +oldPosition[0]+"-"+oldPosition[1]);
-
+            } else if (itsPlayersTurn(y, x)) {
                 clearPotentialMoveColor();
                 checkSequenceAndCalculateMoves(y, x);
                 markPotentialMovesWithColor();
 
-                oldPosition = new int[]{y, x};
-            }
-            else {
-
-                // Ziel: schlagen einfügen
-                // hier liegt der Fehler. Wenn man checkIfPieceTake aufruft, prüft man immer die falschen Werte
-                // bzw. die Abfrage selbst ergibt keinen Sinn
-                clearPotentialMoveColor();
-
-                checkSequenceAndCalculateMoves(y, x);
-
-                try {checkIfPieceTake(oldPosition[0],oldPosition[1]);}
-                catch(NullPointerException ignored){}
-
-                markPotentialMovesWithColor();
-                oldPosition = new int[]{y, x};
+                oldPosition[0] = y;
+                oldPosition[1] = x;
             }
         }
     }
 
+    public boolean playerWantsToTake(int y, int x) {
+        // white clicks black piece or inverse
+        return currentPlayer.equals("w") && pgn[y][x].getColor().equals("b")
+                || currentPlayer.equals("b") && pgn[y][x].getColor().equals("w");
+    }
+
+    public boolean itsPlayersTurn(int y, int x) {
+        return currentPlayer.equals("w") && pgn[y][x].getColor().equals("w")
+                || currentPlayer.equals("b") && pgn[y][x].getColor().equals("b");
+    }
+
     public void paintPlayingFieldAfterTake() {
         frame.getContentPane().removeAll();
-        frame.setJMenuBar(null);
         frame.repaint();
         setPlayingField();
     }
