@@ -3,10 +3,11 @@ package Pieces;
 import Logic.CalculateDiagonals;
 import Logic.CalculateHorizontals;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.checkPieceTake;
+import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Queen extends Piece {
     private final String color;
@@ -15,6 +16,8 @@ public class Queen extends Piece {
     private int[] newPosition;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
+    private ArrayList<int[]> potentialTakesHorizontal = new ArrayList<>();
+    private ArrayList<int[]> potentialTakesVertical = new ArrayList<>();
 
     public Queen(String color) {
         this.color = color;
@@ -39,7 +42,7 @@ public class Queen extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return checkPieceTake(newPosition, potentialMoves);
+        return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -56,6 +59,13 @@ public class Queen extends Piece {
 
         potentialDiagonals = cd.calculateDiagonal();
         potentialHorizontals = ch.calculateHorizontals();
+
+        // behaves very strange if you can take multiple pieces
+        potentialTakesHorizontal = ch.getPossibleTakesOfPieces();
+        potentialTakesVertical = cd.getPossibleTakesOfPieces();
+
+        potentialTakes.addAll(potentialTakesHorizontal);
+        potentialTakes.addAll(potentialTakesVertical);
 
         potentialMoves.addAll(potentialDiagonals);
         potentialMoves.addAll(potentialHorizontals);
