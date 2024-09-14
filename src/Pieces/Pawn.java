@@ -5,7 +5,7 @@ import Logic.PawnMoves;
 
 import java.util.ArrayList;
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.checkPieceTake;
+import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Pawn extends Piece {
     private int[] position;
@@ -18,6 +18,7 @@ public class Pawn extends Piece {
 
     public Pawn(String color) {
         this.color = color;
+        firstMoveTwoSteps = true;
 
         if (color.equals("w")) {
             ui = '♙';
@@ -47,7 +48,7 @@ public class Pawn extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return checkPieceTake(newPosition, potentialMoves);
+        return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -56,6 +57,7 @@ public class Pawn extends Piece {
         PawnMoves pm = new PawnMoves();
         pm.setPosition(position);
         potentialMoves = pm.calculateMoves();
+        potentialTakes = pm.getPossibleTakesOfPieces();
 
         setColorPGN(potentialMoves, 2);
         setColorPGN(potentialTakes, 3);
