@@ -12,10 +12,12 @@ public class PawnMoves extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
+    private ArrayList<int[]> possibleTakesOfPieces;
 
     public PawnMoves() {
         potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
+        possibleTakesOfPieces = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -53,6 +55,21 @@ public class PawnMoves extends Logic {
             if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[] {tempPosition[y], tempPosition[x]});
             }
+
+
+            // !!!!ab hier werden die Werte für die linken bzw. rechten Felder von Bauern geändert!!!!
+
+            tempPosition[x]--;
+
+            // left side of pawn is occupied and capturable
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
+                possibleTakesOfPieces.add(new int[] {tempPosition[y], tempPosition[x]});
+            }
+
+            tempPosition[x] += 2;
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
+                possibleTakesOfPieces.add(new int[] {tempPosition[y], tempPosition[x]});
+            }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
     }
 
@@ -62,5 +79,9 @@ public class PawnMoves extends Logic {
 
     private boolean firstPawnMove() {
         return pgn[position[y]][position[x]].getFirstMoveTwoSteps();
+    }
+
+    public ArrayList<int[]> getPossibleTakesOfPieces() {
+        return this.possibleTakesOfPieces;
     }
 }
