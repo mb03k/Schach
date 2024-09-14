@@ -12,10 +12,12 @@ public class KnightMoves extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
+    private ArrayList<int[]> possibleTakesOfPieces;
 
     public KnightMoves() {
         potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
+        possibleTakesOfPieces = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -47,10 +49,21 @@ public class KnightMoves extends Logic {
     }
 
     private void calculateMoves(int yDirection, int xDirection) {
+        tempPosition[y]+=yDirection;
+        tempPosition[x]+=xDirection;
         try {
-            if (pgn[tempPosition[y]+=yDirection][tempPosition[x]+=xDirection] instanceof EmptyField) {
+            if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
+            } else {
+                if (whitesMove() && !newPieceIsSameColor(tempPosition)) {
+                    possibleTakesOfPieces.add(new int[] {tempPosition[0], tempPosition[1]});
+                }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
     }
+
+    public ArrayList<int[]> getPossibleTakesOfPieces() {
+        return possibleTakesOfPieces;
+    }
+
 }
