@@ -11,7 +11,11 @@ public abstract class Logic {
         return currentPlayer.equals("w");
     }
 
-    protected static boolean newPieceIsSameColor(int[] oldPosition) {
-        return pgn[oldPosition[y]][oldPosition[x]].getColor().equals(currentPlayer);
+    protected static boolean newPieceIsSameColor(int[] position) {
+        return pgn[position[y]][position[x]].getColor().equals(currentPlayer);
+    }
+
+    protected static boolean otherPieceColorWasClicked(int[] tempPosition) {
+        return whitesMove() && !newPieceIsSameColor(tempPosition) || !whitesMove() && !newPieceIsSameColor(tempPosition);
     }
 }
