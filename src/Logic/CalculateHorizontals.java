@@ -12,7 +12,7 @@ public class CalculateHorizontals extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
-    private ArrayList<int[]> possibleTakesOfPieces ;
+    private ArrayList<int[]> possibleTakesOfPieces;
 
     public CalculateHorizontals() {
         potentialMoves = new ArrayList<>();
@@ -59,10 +59,9 @@ public class CalculateHorizontals extends Logic {
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 }
-
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (whitesMove() && !newPieceIsSameColor(tempPosition)) {
+                } else if (otherPieceColorWasClicked(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     break;
                 }

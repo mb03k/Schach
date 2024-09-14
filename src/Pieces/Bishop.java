@@ -4,8 +4,7 @@ import Logic.CalculateDiagonals;
 import java.util.ArrayList;
 
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.checkPieceMoves;
-import static Logic.CheckRequirements.checkPieceTake;
+import static Logic.CheckRequirements.*;
 
 public class Bishop extends Piece {
     private final String color;
@@ -41,8 +40,8 @@ public class Bishop extends Piece {
         this.newPosition = new int[] {newy, newx};
 
         // return if piece can move or if piece can be taken
-        if (!checkPieceMoves(newPosition, potentialMoves)) {
-            return checkPieceTake(newPosition, potentialTakes);
+        if (!checkPieceMoveOrTake(newPosition, potentialMoves)) {
+            return checkPieceMoveOrTake(newPosition, potentialTakes);
         }
         return true;
     }

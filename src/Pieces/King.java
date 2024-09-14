@@ -6,7 +6,7 @@ import Logic.KingMoves;
 import java.util.ArrayList;
 
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.checkPieceTake;
+import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class King extends Piece {
     private final String color;
@@ -39,7 +39,7 @@ public class King extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return checkPieceTake(newPosition, potentialMoves);
+        return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {

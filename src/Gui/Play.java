@@ -4,6 +4,7 @@ import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static GameData.Data.*;
@@ -217,7 +218,9 @@ public class Play {
         } else { // player wants to take or calculate moves
             if (playerWantsToTake(y, x)) {
                 clearPotentialMoveColor();
-                if (checkPieceTake(new int[]{y,x}, oldPosition)) {
+                ArrayList<int[]> potentialMoves = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
+
+                if (checkPieceMoveOrTake(new int[]{y,x}, potentialMoves)) {
                     pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]];
                     pgn[oldPosition[0]][oldPosition[1]] = new EmptyField();
                     paintPlayingFieldAfterTake();

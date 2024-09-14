@@ -28,6 +28,8 @@ public abstract class Piece {
         return false;
     }
 
+    public void setFirstMoveTwoStepsFalse() {}
+
     public ArrayList<int[]> getPotentialTakes() {
         return null;
     }

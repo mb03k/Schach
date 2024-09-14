@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static GameData.Data.*;
-import static Logic.Logic.newPieceIsSameColor;
-import static Logic.Logic.whitesMove;
+import static Logic.Logic.*;
 
 public class CalculateDiagonals {
 
@@ -16,10 +15,13 @@ public class CalculateDiagonals {
 
     private int[] position;
     private int[] tempPosition;
-    private final ArrayList<int[]> potentialMovesStorage = new ArrayList<>();
-    private final ArrayList<int[]> possibleTakesOfPieces = new ArrayList<>();
+    private final ArrayList<int[]> potentialMovesStorage;
+    private final ArrayList<int[]> possibleTakesOfPieces;
 
-    public CalculateDiagonals() {}
+    public CalculateDiagonals() {
+        potentialMovesStorage = new ArrayList<>();
+        possibleTakesOfPieces = new ArrayList<>();
+    }
 
     public void setPosition(int[] position) {
         this.position = position;
@@ -59,9 +61,12 @@ public class CalculateDiagonals {
                     break;
                 }
 
+
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (whitesMove() && !newPieceIsSameColor(tempPosition)) {
+                }
+                // if a piece is detected
+                else if (otherPieceColorWasClicked(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     break;
                 }

@@ -11,8 +11,8 @@ public class CheckRequirements {
         pgn[y][x].calculateAndMarkMoves(y, x);
     }
 
-    // can be simplified to one method
-    public static boolean checkPieceMoves(int[] newPosition, ArrayList<int[]> potentialMoves) {
+    // die hier behalten
+    public static boolean checkPieceMoveOrTake(int[] newPosition, ArrayList<int[]> potentialMoves) {
         for (int[] move : potentialMoves) {
             if (Arrays.equals(move, newPosition)) {
                 return true;
@@ -21,8 +21,9 @@ public class CheckRequirements {
         return false;
     }
 
-    public static boolean checkPieceMoves(int[] newPosition, int[] potentialMoves) {
-        for (int[] move : pgn[potentialMoves[0]][potentialMoves[1]].getMoves()) {
+    // can be simplified to one method
+    /*public static boolean checkPieceMoves(int[] newPosition, ArrayList<int[]> potentialMoves) {
+        for (int[] move : potentialMoves) {
             if (Arrays.equals(move, newPosition)) {
                 return true;
             }
@@ -46,5 +47,5 @@ public class CheckRequirements {
             }
         }
         return false;
-    }
+    }*/
 }

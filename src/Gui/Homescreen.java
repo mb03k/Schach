@@ -33,7 +33,7 @@ public class Homescreen {
         mainLabel.setForeground(Color.LIGHT_GRAY);
 
         JButton play = new JButton("Spielen");
-        JButton setUpPosition = new JButton("Position erstellen");
+        JButton setUpPosition = new JButton("Position erstellen♜");
         JButton exit = new JButton("Verlassen");
 
         // action listener

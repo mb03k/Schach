@@ -10,11 +10,9 @@ import static GameData.Data.pgn;
 public class KingMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
-    private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
 
     public KingMoves() {
-        potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
     }
 
@@ -46,8 +44,10 @@ public class KingMoves extends Logic {
     }
 
     private void calculateMoves(int yDirection, int xDirection) {
+        tempPosition[y]+=yDirection;
+        tempPosition[x]+=xDirection;
         try {
-            if (pgn[tempPosition[y]+=yDirection][tempPosition[x]+=xDirection] instanceof EmptyField) {
+            if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}

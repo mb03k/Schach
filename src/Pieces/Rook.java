@@ -3,7 +3,7 @@ package Pieces;
 import Logic.CalculateHorizontals;
 import java.util.ArrayList;
 import static GameData.Data.setColorPGN;
-import static Logic.CheckRequirements.checkPieceTake;
+import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Rook extends Piece {
     private final String color;
@@ -36,7 +36,7 @@ public class Rook extends Piece {
     public boolean setNewPosition(int newy, int newx) {
         this.newPosition = new int[] {newy, newx};
 
-        return checkPieceTake(newPosition, potentialMoves);
+        return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
     public void calculateAndMarkMoves(int y, int x) {
@@ -45,6 +45,7 @@ public class Rook extends Piece {
         CalculateHorizontals ch = new CalculateHorizontals();
         ch.setPosition(position);
         potentialMoves = ch.calculateHorizontals();
+        potentialTakes = ch.getPossibleTakesOfPieces();
 
         setColorPGN(potentialMoves, 2);
         setColorPGN(potentialTakes, 3);

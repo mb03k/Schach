@@ -58,4 +58,7 @@ public class Data {
             {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new EmptyField()},
             {new Rook("w"), new Knight("w"), new Bishop("w"), new Queen("w"), new King("w"), new Bishop("w"), new Knight("w"), new Rook("w")}
     };
+
+    // ♚ ♛ ♜ ♝ ♞ ♟ schwarz
+    // ♔ ♕ ♖ ♗ ♘ ♙ weiß
 }
