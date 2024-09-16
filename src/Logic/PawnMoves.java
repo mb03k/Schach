@@ -32,45 +32,49 @@ public class PawnMoves extends Logic {
 
         if (pawnIsWhite()) {
             setTempPosition();
-            calculateMoves(-1, 0);
+            calculateMoves(-1);
+            setTempPosition();
+            calculateTakes(-1);
             if (firstPawnMove()) {
                 setTempPosition();
-                calculateMoves(-2, 0);
+                calculateMoves(-2);
             }
         } else {
             setTempPosition();
-            calculateMoves(1, 0);
+            calculateMoves(1);
+            setTempPosition();
+            calculateTakes(1);
             if (firstPawnMove()) {
                 setTempPosition();
-                calculateMoves(2, 0);
+                calculateMoves(2);
             }
         }
         return potentialMovesStorage;
     }
 
-    private void calculateMoves(int yDirection, int xDirection) {
+    private void calculateMoves(int yDirection) {
         tempPosition[y] += yDirection;
-        tempPosition[x] += xDirection;
         try {
             if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[] {tempPosition[y], tempPosition[x]});
             }
+        } catch (ArrayIndexOutOfBoundsException ignored) {}
+    }
 
+    private void calculateTakes(int yDirection) {
+        tempPosition[y] += yDirection;
+        tempPosition[x]--;
 
-            // !!!!ab hier werden die Werte für die linken bzw. rechten Felder von Bauern geändert!!!!
-
-            tempPosition[x]--;
-
-            // left side of pawn is occupied and capturable
+        try {
+            // left or right sides of pawn are occupied and capturable
             if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
-                possibleTakesOfPieces.add(new int[] {tempPosition[y], tempPosition[x]});
+                possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
             }
-
             tempPosition[x] += 2;
             if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
-                possibleTakesOfPieces.add(new int[] {tempPosition[y], tempPosition[x]});
+                possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
             }
-        } catch (ArrayIndexOutOfBoundsException ignored) {}
+        } catch(Exception ignored) {}
     }
 
     private boolean pawnIsWhite() {
