@@ -74,10 +74,12 @@ public class Play {
     public void changeSquareColor(int y, int x) {
         switch(colorPGN[y][x]) {
             case 0:
-                board[y][x].setBackground(Color.GRAY);
+                //board[y][x].setBackground(Color.GRAY);
+                board[y][x].setBackground(Color.decode("#769656"));
                 break;
             case 1:
-                board[y][x].setBackground(Color.LIGHT_GRAY);
+                //board[y][x].setBackground(Color.LIGHT_GRAY);
+                board[y][x].setBackground(Color.decode("#eeeed2"));
                 break;
             case 2:
                 board[y][x].setBackground(Color.ORANGE);
@@ -209,11 +211,7 @@ public class Play {
             clearPotentialMoveColor();
             // if piece can move
             if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
-
-                pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
-                pgn[oldPosition[0]][oldPosition[1]] = new EmptyField(); // old field
-
-                paintPlayingFieldAfterTake();
+                drawPlayerMoves(y, x);
             }
         } else { // player wants to take or calculate moves
             if (playerWantsToTake(y, x)) {
@@ -221,9 +219,7 @@ public class Play {
                 ArrayList<int[]> potentialMoves = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
 
                 if (checkPieceMoveOrTake(new int[]{y,x}, potentialMoves)) {
-                    pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]];
-                    pgn[oldPosition[0]][oldPosition[1]] = new EmptyField();
-                    paintPlayingFieldAfterTake();
+                    drawPlayerMoves(y, x);
                 }
             } else if (itsPlayersTurn(y, x)) {
                 clearPotentialMoveColor();
@@ -247,7 +243,18 @@ public class Play {
                 || currentPlayer.equals("b") && pgn[y][x].getColor().equals("b");
     }
 
-    public void paintPlayingFieldAfterTake() {
+    public void drawPlayerMoves(int y, int x) {
+        if (pgn[oldPosition[0]][oldPosition[1]] instanceof Pawn) {
+            pgn[oldPosition[0]][oldPosition[1]].setFirstMoveTwoStepsFalse();
+        }
+
+        pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
+        pgn[oldPosition[0]][oldPosition[1]] = new EmptyField(); // old field
+
+        paintPlayingFieldAfterMove();
+    }
+
+    public void paintPlayingFieldAfterMove() {
         frame.getContentPane().removeAll();
         frame.repaint();
         setPlayingField();
