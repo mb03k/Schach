@@ -33,7 +33,9 @@ public class Homescreen {
         mainLabel.setForeground(Color.LIGHT_GRAY);
 
         JButton play = new JButton("Spielen");
-        JButton setUpPosition = new JButton("Position erstellen♜");
+        JButton setUpPosition = new JButton("Position erstellen");
+        //JButton loadGame = new JButton("Spiel laden");
+        JButton settings = new JButton("Einstellungen");
         JButton exit = new JButton("Verlassen");
 
         // action listener
@@ -43,7 +45,9 @@ public class Homescreen {
 
         // add buttons to panel
         elmContTop.add(play);
-        elmContBottom.add(setUpPosition);
+        //elmContTop.add(loadGame);
+        elmContTop.add(setUpPosition);
+        elmContBottom.add(settings);
         elmContBottom.add(exit);
 
         // set grid of elements
