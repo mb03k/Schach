@@ -131,11 +131,11 @@ public class Play {
         gbc.weighty = 0.8;
         frame.add(numberPanel, gbc);
 
-        setzeSpielfeldMarkierungen(letterPanel, numberPanel);
-        erzeugeSpielfeldGUI(gbc);
+        setPlayingFieldMarkers(letterPanel, numberPanel);
+        setPlayingFieldEdges(gbc);
     }
 
-    public void setzeSpielfeldMarkierungen(JPanel letterPanel, JPanel numberPanel) {
+    public void setPlayingFieldMarkers(JPanel letterPanel, JPanel numberPanel) {
         // Panel for labels (A-H)
         for (int iterator = 0; iterator < 8; iterator++) {
             JLabel letterLabel = new JLabel(valueOf((char) ('a' + iterator)), SwingConstants.CENTER);
@@ -153,7 +153,7 @@ public class Play {
         }
     }
 
-    public void erzeugeSpielfeldGUI(GridBagConstraints gbc) {
+    public void setPlayingFieldEdges(GridBagConstraints gbc) {
         // Spielfeld
         fieldButtonPanel = new JPanel();
         fieldButtonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -205,6 +205,7 @@ public class Play {
         frame.setJMenuBar(menuBar);
     }
 
+    // die gesamte Methode mal überarbeiten
     public void handlePieceClick(int y, int x) {
         // player wants to move
         if (pgn[y][x] instanceof EmptyField) {
@@ -214,14 +215,14 @@ public class Play {
                 drawPlayerMoves(y, x);
             }
         } else { // player wants to take or calculate moves
-            if (playerWantsToTake(y, x)) {
+            if (playerWantsToTake(y, x) && itsPlayersTurn(oldPosition[0], oldPosition[1])) {
                 clearPotentialMoveColor();
                 ArrayList<int[]> potentialMoves = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
 
                 if (checkPieceMoveOrTake(new int[]{y,x}, potentialMoves)) {
                     drawPlayerMoves(y, x);
                 }
-            } else if (itsPlayersTurn(y, x)) {
+            } else if (itsPlayersTurn(y, x)) { // player wants to move (same color-piece was clicked)
                 clearPotentialMoveColor();
                 checkSequenceAndCalculateMoves(y, x);
                 markPotentialMovesWithColor();
@@ -251,7 +252,16 @@ public class Play {
         pgn[y][x] = pgn[oldPosition[0]][oldPosition[1]]; // new field
         pgn[oldPosition[0]][oldPosition[1]] = new EmptyField(); // old field
 
+        setOtherPlayer();
         paintPlayingFieldAfterMove();
+    }
+
+    public static void setOtherPlayer() {
+        if (currentPlayer.equals("w")) {
+            currentPlayer = "b";
+        } else {
+            currentPlayer = "w";
+        }
     }
 
     public void paintPlayingFieldAfterMove() {
