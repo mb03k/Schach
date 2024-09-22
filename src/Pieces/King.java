@@ -10,7 +10,7 @@ import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class King extends Piece {
     private final String color;
-    private final char ui;
+    private final String ui;
     private int[] position;
     private int[] newPosition;
     private ArrayList<int[]> potentialTakes;
@@ -20,13 +20,13 @@ public class King extends Piece {
         this.color = color;
 
         if (color.equals("w")) {
-            ui = '♔';
+            ui = "♔";
         } else {
-            ui = '♚';
+            ui = "♚";
         }
     }
 
-    public char getUi() {
+    public String getUi() {
         return this.ui;
     }
 
