@@ -34,7 +34,7 @@ public abstract class Piece {
         return null;
     }
 
-    public char getUi() {
-        return 'e';
+    public String getUi() {
+        return null;
     }
 }
