@@ -12,7 +12,7 @@ public class PawnMoves extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
-    private ArrayList<int[]> possibleTakesOfPieces;
+    private ArrayList<int[]> possibleTakesOfPieces; // Ha
 
     public PawnMoves() {
         potentialMoves = new ArrayList<>();
