@@ -8,7 +8,7 @@ import static Logic.CheckRequirements.*;
 
 public class Bishop extends Piece {
     private final String color;
-    private final char ui;
+    private final String ui;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
@@ -19,13 +19,13 @@ public class Bishop extends Piece {
         this.color = color;
 
         if (color.equals("w")) {
-            ui = '♗';
+            ui = "♗";
         } else {
-            ui = '♝';
+            ui = "♝";
         }
     }
 
-    public char getUi() {
+    public String getUi() {
         return this.ui;
     }
 
