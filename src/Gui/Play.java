@@ -46,17 +46,13 @@ public class Play {
     public void addPlayingFieldContent(int y, int x) {
         JPanel btnPanel = new JPanel();
         JButton playingFieldButtonListener;
-
-        char nameOfPiece = pgn[y][x].getUi();
-        if (nameOfPiece == 'e') {
-            playingFieldButtonListener = new JButton();
-        } else {
-            playingFieldButtonListener = new JButton(valueOf(nameOfPiece));
-        }
-
-        playingFieldButtonListener.setFont(new Font("Verdana", Font.PLAIN, 50));
-        playingFieldButtonListener.setBorder(BorderFactory.createLineBorder(Color.RED));
+        String nameOfPiece = pgn[y][x].getUi();
+        JLabel emojiLabel = new JLabel(nameOfPiece);
+        emojiLabel.setFont(new Font("Dialog", Font.PLAIN, 30));
+        
+        playingFieldButtonListener = new JButton();
         playingFieldButtonListener.addActionListener(e -> handlePieceClick(y, x));
+        playingFieldButtonListener.add(emojiLabel);
 
         // make button invisible
         playingFieldButtonListener.setBorderPainted(false);
@@ -74,11 +70,9 @@ public class Play {
     public void changeSquareColor(int y, int x) {
         switch(colorPGN[y][x]) {
             case 0:
-                //board[y][x].setBackground(Color.GRAY);
                 board[y][x].setBackground(Color.decode("#769656"));
                 break;
             case 1:
-                //board[y][x].setBackground(Color.LIGHT_GRAY);
                 board[y][x].setBackground(Color.decode("#eeeed2"));
                 break;
             case 2:
