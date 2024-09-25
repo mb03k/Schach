@@ -65,5 +65,4 @@ public class KnightMoves extends Logic {
     public ArrayList<int[]> getPossibleTakesOfPieces() {
         return possibleTakesOfPieces;
     }
-
 }
