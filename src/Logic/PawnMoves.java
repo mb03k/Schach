@@ -12,7 +12,7 @@ public class PawnMoves extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
-    private ArrayList<int[]> possibleTakesOfPieces; // Ha
+    private ArrayList<int[]> possibleTakesOfPieces;
 
     public PawnMoves() {
         potentialMoves = new ArrayList<>();
@@ -29,7 +29,8 @@ public class PawnMoves extends Logic {
     }
 
     public ArrayList<int[]> calculateMoves() {
-
+        // Bug: wenn Bauer zwei Felder gehen kann und das erste Feld besetzt ist, aber nicht das zweite
+        // kann er trotzdem auf das zweite Feld gehen
         if (pawnIsWhite()) {
             setTempPosition();
             calculateMoves(-1);

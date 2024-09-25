@@ -207,6 +207,9 @@ public class Play {
             // if piece can move
             if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
                 drawPlayerMoves(y, x);
+
+                oldPosition[0] = y;
+                oldPosition[1] = x;
             }
         } else { // player wants to take or calculate moves
             if (playerWantsToTake(y, x) && itsPlayersTurn(oldPosition[0], oldPosition[1])) {
