@@ -17,7 +17,7 @@ public class Queen extends Piece {
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
     private ArrayList<int[]> potentialTakesHorizontal = new ArrayList<>();
-    private ArrayList<int[]> potentialTakesVertical = new ArrayList<>();
+    private ArrayList<int[]> potentialTakesDiagonal = new ArrayList<>();
 
     public Queen(String color) {
         this.color = color;
@@ -60,15 +60,14 @@ public class Queen extends Piece {
         potentialDiagonals = cd.calculateDiagonal();
         potentialHorizontals = ch.calculateHorizontals();
 
-        // behaves very strange if you can take multiple pieces
         potentialTakesHorizontal = ch.getPossibleTakesOfPieces();
-        potentialTakesVertical = cd.getPossibleTakesOfPieces();
-
-        potentialTakes.addAll(potentialTakesHorizontal);
-        potentialTakes.addAll(potentialTakesVertical);
+        potentialTakesDiagonal = cd.getPossibleTakesOfPieces();
 
         potentialMoves.addAll(potentialDiagonals);
         potentialMoves.addAll(potentialHorizontals);
+
+        potentialTakes.addAll(potentialTakesHorizontal);
+        potentialTakes.addAll(potentialTakesDiagonal);
     }
 
     @Override
