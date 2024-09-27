@@ -49,10 +49,6 @@ public class CalculateHorizontals extends Logic {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
-                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
-                    potentialMovesStorage.add(new int[]{tempPosition[y], tempPosition[x]});
-                }
-
                 // same color on the diagonal (cant move further)
                 if (whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
@@ -61,7 +57,7 @@ public class CalculateHorizontals extends Logic {
                 }
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (otherPieceColorWasClicked(tempPosition)) {
+                } else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     break;
                 }

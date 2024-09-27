@@ -15,7 +15,7 @@ public abstract class Logic {
         return pgn[position[y]][position[x]].getColor().equals(currentPlayer);
     }
 
-    protected static boolean otherPieceColorWasClicked(int[] tempPosition) {
+    protected static boolean pieceCanBeTaken(int[] tempPosition) {
         return whitesMove() && !newPieceIsSameColor(tempPosition) || !whitesMove() && !newPieceIsSameColor(tempPosition);
     }
 }

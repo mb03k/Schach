@@ -32,6 +32,9 @@ public class CalculateDiagonals {
     }
 
     public ArrayList<int[]> calculateDiagonal() {
+        if (position[0]==7 && position[1]==3) {
+System.out.println("DAME");
+        }
 
         setTempPosition();
         calculateDiagonal(-1, 1);
@@ -61,12 +64,11 @@ public class CalculateDiagonals {
                     break;
                 }
 
-
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                 }
                 // if a piece is detected
-                else if (otherPieceColorWasClicked(tempPosition)) {
+                else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     break;
                 }

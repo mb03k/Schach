@@ -68,14 +68,15 @@ public class PawnMoves extends Logic {
 
         try {
             // left or right sides of pawn are occupied and capturable
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
                 possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
             }
+        } catch(Exception ignored) {
             tempPosition[x] += 2;
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && otherPieceColorWasClicked(tempPosition)) {
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
                 possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
             }
-        } catch(Exception ignored) {}
+        }
     }
 
     private boolean pawnIsWhite() {

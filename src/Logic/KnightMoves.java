@@ -55,7 +55,7 @@ public class KnightMoves extends Logic {
             if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
             } else {
-                if (otherPieceColorWasClicked(tempPosition)) {
+                if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[] {tempPosition[0], tempPosition[1]});
                 }
             }
