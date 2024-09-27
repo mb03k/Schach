@@ -39,16 +39,18 @@ public class Rook extends Piece {
         return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
-    public void calculateAndMarkMoves(int y, int x) {
+    public void calculateMoves(int y, int x) {
         position = new int[]{y,x};
 
         CalculateHorizontals ch = new CalculateHorizontals();
         ch.setPosition(position);
         potentialMoves = ch.calculateHorizontals();
         potentialTakes = ch.getPossibleTakesOfPieces();
+    }
 
-        setColorPGN(potentialMoves, 2);
-        setColorPGN(potentialTakes, 3);
+    @Override
+    public ArrayList<int[]> getMoves() {
+        return potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

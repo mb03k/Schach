@@ -42,15 +42,17 @@ public class King extends Piece {
         return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
-    public void calculateAndMarkMoves(int y, int x) {
+    public void calculateMoves(int y, int x) {
         position = new int[]{y, x};
 
         KingMoves km = new KingMoves();
         km.setPosition(position);
         potentialMoves = km.calculateMoves();
+    }
 
-        setColorPGN(potentialMoves, 2);
-        setColorPGN(potentialTakes, 3);
+    @Override
+    public ArrayList<int[]> getMoves() {
+        return potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

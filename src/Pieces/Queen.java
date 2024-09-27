@@ -45,7 +45,7 @@ public class Queen extends Piece {
         return checkPieceMoveOrTake(newPosition, potentialMoves);
     }
 
-    public void calculateAndMarkMoves(int y, int x) {
+    public void calculateMoves(int y, int x) {
         position = new int[]{y,x};
         potentialMoves = new ArrayList<>();
         ArrayList<int[]> potentialDiagonals;
@@ -69,9 +69,11 @@ public class Queen extends Piece {
 
         potentialMoves.addAll(potentialDiagonals);
         potentialMoves.addAll(potentialHorizontals);
+    }
 
-        setColorPGN(potentialMoves, 2);
-        setColorPGN(potentialTakes, 3);
+    @Override
+    public ArrayList<int[]> getMoves() {
+        return potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

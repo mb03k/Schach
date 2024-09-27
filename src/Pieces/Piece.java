@@ -12,7 +12,7 @@ public abstract class Piece {
         return "";
     }
 
-    public void calculateAndMarkMoves(int y, int x) {}
+    public void calculateMoves(int y, int x) {}
 
     public ArrayList<int[]> getMoves() {
         return null;

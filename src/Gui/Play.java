@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static GameData.Data.*;
-import static Logic.CheckRequirements.*;
 import static java.lang.String.valueOf;
 import static java.lang.System.exit;
 
@@ -37,6 +36,7 @@ public class Play {
         for (int y=0; y<8; y++) { // vertical
             for (int x=0; x<8; x++) { // horizontal
                 addPlayingFieldContent(y, x);
+                pgn[y][x].calculateMoves(y, x);
             }
         }
 
@@ -48,7 +48,7 @@ public class Play {
         JButton playingFieldButtonListener;
         String nameOfPiece = pgn[y][x].getUi();
         JLabel emojiLabel = new JLabel(nameOfPiece);
-        emojiLabel.setFont(new Font("Dialog", Font.PLAIN, 30));
+        emojiLabel.setFont(new Font("Dialog", Font.PLAIN, 50));
         
         playingFieldButtonListener = new JButton();
         playingFieldButtonListener.addActionListener(e -> handlePieceClick(y, x));
@@ -70,16 +70,16 @@ public class Play {
     public void changeSquareColor(int y, int x) {
         switch(colorPGN[y][x]) {
             case 0:
-                board[y][x].setBackground(Color.decode("#769656"));
+                board[y][x].setBackground(Color.decode("#769656")); // green
                 break;
             case 1:
-                board[y][x].setBackground(Color.decode("#eeeed2"));
+                board[y][x].setBackground(Color.decode("#eeeed2")); // white
                 break;
             case 2:
-                board[y][x].setBackground(Color.ORANGE);
+                board[y][x].setBackground(Color.decode("#FFDBBB"));
                 break;
             case 3:
-                board[y][x].setBackground(Color.MAGENTA);
+                board[y][x].setBackground(Color.decode("#ffaeff"));
             default:
         }
     }
@@ -202,7 +202,7 @@ public class Play {
     // die gesamte Methode mal überarbeiten
     public void handlePieceClick(int y, int x) {
         // player wants to move
-        if (pgn[y][x] instanceof EmptyField) {
+        /*if (pgn[y][x] instanceof EmptyField) {
             clearPotentialMoveColor();
             // if piece can move
             if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
@@ -227,6 +227,42 @@ public class Play {
                 oldPosition[0] = y;
                 oldPosition[1] = x;
             }
+        }*/
+
+        // from here after new principle (save all of the potential moves)
+        if (pgn[y][x] instanceof EmptyField) {
+            clearPotentialMoveColor();
+            // if piece can move
+            if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
+                drawPlayerMoves(y, x);
+
+                oldPosition[0] = y;
+                oldPosition[1] = x;
+            }
+        } else { // player wants to take or calculate moves
+            if (playerWantsToTake(y, x) && itsPlayersTurn(oldPosition[0], oldPosition[1])) { // player wants to take
+                int[] currentPosition = new int[] {y, x};
+
+                ArrayList<int[]> potentialTakes = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
+
+                try {
+                    for (int[] move : potentialTakes) {
+                        if (Arrays.equals(move, currentPosition)) {
+                            drawPlayerMoves(y, x);
+                        }
+                    } 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (itsPlayersTurn(y, x)) { // player wants to move (same color-piece was clicked)
+                clearPotentialMoveColor();
+                setColorPGN(pgn[y][x].getMoves(), 2);
+                setColorPGN(pgn[y][x].getPotentialTakes(), 3);
+                markPotentialMovesWithColor();
+                
+                oldPosition[0] = y;
+                oldPosition[1] = x;
+            } 
         }
     }
 
@@ -262,6 +298,7 @@ public class Play {
     }
 
     public void paintPlayingFieldAfterMove() {
+        setStandardColorPGN();
         frame.getContentPane().removeAll();
         frame.repaint();
         setPlayingField();
