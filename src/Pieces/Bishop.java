@@ -3,7 +3,11 @@ package Pieces;
 import Logic.CalculateDiagonals;
 import java.util.ArrayList;
 
+import static GameData.Data.colorPGN;
+import static GameData.Data.setBlacksPM_PGN;
 import static GameData.Data.setColorPGN;
+import static GameData.Data.setWhitesPM_PGN;
+import static GameData.Data.whitesPM_PGN;
 import static Logic.CheckRequirements.*;
 
 public class Bishop extends Piece {
@@ -56,6 +60,15 @@ public class Bishop extends Piece {
 
         setColorPGN(potentialMoves, 2);
         setColorPGN(potentialTakes, 3);
+    }
+
+    public void setPM_PGN(int y, int x) {
+        calculateAndMarkMoves(y, x);
+        if (this.color.equals("w")) {
+            setWhitesPM_PGN(potentialMoves);
+        } else {
+            setBlacksPM_PGN(potentialMoves);
+        }
     }
 
     @Override

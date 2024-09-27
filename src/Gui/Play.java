@@ -37,10 +37,15 @@ public class Play {
         for (int y=0; y<8; y++) { // vertical
             for (int x=0; x<8; x++) { // horizontal
                 addPlayingFieldContent(y, x);
+                calculatePotentialMoves(y,x);
             }
         }
 
         frame.setVisible(true);
+    }
+
+    public void calculatePotentialMoves(int y, int x) {
+        pgn[y][x].setPM_PGN(y, x);
     }
 
     public void addPlayingFieldContent(int y, int x) {
@@ -70,10 +75,10 @@ public class Play {
     public void changeSquareColor(int y, int x) {
         switch(colorPGN[y][x]) {
             case 0:
-                board[y][x].setBackground(Color.decode("#769656"));
+                board[y][x].setBackground(Color.decode("#769656")); // green
                 break;
             case 1:
-                board[y][x].setBackground(Color.decode("#eeeed2"));
+                board[y][x].setBackground(Color.decode("#eeeed2")); // white
                 break;
             case 2:
                 board[y][x].setBackground(Color.ORANGE);

@@ -37,4 +37,6 @@ public abstract class Piece {
     public String getUi() {
         return null;
     }
+
+    public void setPM_PGN(int y, int x) {}
 }
