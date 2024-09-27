@@ -50,25 +50,13 @@ public class Bishop extends Piece {
         return true;
     }
 
-    public void calculateAndMarkMoves(int y, int x) {
+    public void calculateMoves(int y, int x) {
         position = new int[]{y, x};
 
         CalculateDiagonals cd = new CalculateDiagonals();
         cd.setPosition(position);
         potentialMoves = cd.calculateDiagonal();
         potentialTakes = cd.getPossibleTakesOfPieces();
-
-        setColorPGN(potentialMoves, 2);
-        setColorPGN(potentialTakes, 3);
-    }
-
-    public void setPM_PGN(int y, int x) {
-        calculateAndMarkMoves(y, x);
-        if (this.color.equals("w")) {
-            setWhitesPM_PGN(potentialMoves);
-        } else {
-            setBlacksPM_PGN(potentialMoves);
-        }
     }
 
     @Override
