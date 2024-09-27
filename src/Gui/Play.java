@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static GameData.Data.*;
+import static Logic.CheckRequirements.checkPieceMoveOrTake;
 import static java.lang.String.valueOf;
 import static java.lang.System.exit;
 
@@ -199,37 +200,7 @@ public class Play {
         frame.setJMenuBar(menuBar);
     }
 
-    // die gesamte Methode mal überarbeiten
     public void handlePieceClick(int y, int x) {
-        // player wants to move
-        /*if (pgn[y][x] instanceof EmptyField) {
-            clearPotentialMoveColor();
-            // if piece can move
-            if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
-                drawPlayerMoves(y, x);
-
-                oldPosition[0] = y;
-                oldPosition[1] = x;
-            }
-        } else { // player wants to take or calculate moves
-            if (playerWantsToTake(y, x) && itsPlayersTurn(oldPosition[0], oldPosition[1])) {
-                clearPotentialMoveColor();
-                ArrayList<int[]> potentialMoves = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
-
-                if (checkPieceMoveOrTake(new int[]{y,x}, potentialMoves)) {
-                    drawPlayerMoves(y, x);
-                }
-            } else if (itsPlayersTurn(y, x)) { // player wants to move (same color-piece was clicked)
-                clearPotentialMoveColor();
-                checkSequenceAndCalculateMoves(y, x);
-                markPotentialMovesWithColor();
-
-                oldPosition[0] = y;
-                oldPosition[1] = x;
-            }
-        }*/
-
-        // from here after new principle (save all of the potential moves)
         if (pgn[y][x] instanceof EmptyField) {
             clearPotentialMoveColor();
             // if piece can move
@@ -245,14 +216,8 @@ public class Play {
 
                 ArrayList<int[]> potentialTakes = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
 
-                try {
-                    for (int[] move : potentialTakes) {
-                        if (Arrays.equals(move, currentPosition)) {
-                            drawPlayerMoves(y, x);
-                        }
-                    } 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (checkPieceMoveOrTake(currentPosition, potentialTakes)) {
+                    drawPlayerMoves(y, x);
                 }
             } else if (itsPlayersTurn(y, x)) { // player wants to move (same color-piece was clicked)
                 clearPotentialMoveColor();
