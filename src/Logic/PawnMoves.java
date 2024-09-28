@@ -10,12 +10,11 @@ import static GameData.Data.pgn;
 public class PawnMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
-    private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
+    private ArrayList<int[]> valuesFor_PM_PGN;
 
     public PawnMoves() {
-        potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
     }
@@ -34,8 +33,13 @@ public class PawnMoves extends Logic {
         if (pawnIsWhite()) {
             setTempPosition();
             calculateMoves(-1);
+
             setTempPosition();
             calculateTakes(-1);
+
+            setTempPosition();
+            calculatePM_values(-1);
+
             if (firstPawnMove()) {
                 setTempPosition();
                 calculateMoves(-2);
@@ -43,8 +47,13 @@ public class PawnMoves extends Logic {
         } else {
             setTempPosition();
             calculateMoves(1);
+
             setTempPosition();
             calculateTakes(1);
+
+            setTempPosition();
+            calculatePM_values(1);
+
             if (firstPawnMove()) {
                 setTempPosition();
                 calculateMoves(2);
@@ -68,13 +77,37 @@ public class PawnMoves extends Logic {
 
         try {
             // left or right sides of pawn are occupied and capturable
+            System.out.println("TRY: "+tempPosition[y]+"-"+tempPosition[1]);
             if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
                 possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                System.out.println("JAAAAAA");
             }
         } catch(Exception ignored) {
             tempPosition[x] += 2;
+            System.out.println("TRY: "+tempPosition[y]+"-"+tempPosition[1]);
             if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
                 possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                System.out.println("JAAAAAA");
+            }
+        }
+    }
+
+    private void calculatePM_values(int yDirection) {
+        tempPosition[y] += yDirection;
+        tempPosition[x]--;
+        try {
+            System.out.println("TRY: "+tempPosition[y]+"-"+tempPosition[1]);
+            // left or right sides of pawn are occupied and capturable
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
+                valuesFor_PM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                System.out.println("JAAAAAA");
+            }
+        } catch(Exception ignored) {
+            tempPosition[x] += 2;
+            System.out.println("TRY: "+tempPosition[y]+"-"+tempPosition[1]);
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
+                valuesFor_PM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                System.out.println("JAAAAAA");
             }
         }
     }
@@ -89,5 +122,9 @@ public class PawnMoves extends Logic {
 
     public ArrayList<int[]> getPossibleTakesOfPieces() {
         return this.possibleTakesOfPieces;
+    }
+
+    public ArrayList<int[]> getValuesFor_PM_PGN() {
+        return this.valuesFor_PM_PGN;
     }
 }
