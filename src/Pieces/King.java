@@ -1,11 +1,10 @@
 package Pieces;
 
-import Logic.CalculateDiagonals;
 import Logic.KingMoves;
 
 import java.util.ArrayList;
+import static GameData.Data.*;
 
-import static GameData.Data.setColorPGN;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class King extends Piece {
@@ -48,6 +47,8 @@ public class King extends Piece {
         KingMoves km = new KingMoves();
         km.setPosition(position);
         potentialMoves = km.calculateMoves();
+
+        writePM_PGN(color, potentialMoves, potentialTakes);
     }
 
     @Override

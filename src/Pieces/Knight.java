@@ -2,7 +2,7 @@ package Pieces;
 
 import Logic.KnightMoves;
 import java.util.ArrayList;
-import static GameData.Data.setColorPGN;
+import static GameData.Data.*;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Knight extends Piece {
@@ -46,6 +46,8 @@ public class Knight extends Piece {
         ck.setPosition(position);
         potentialMoves = ck.calculateMoves();
         potentialTakes = ck.getPossibleTakesOfPieces();
+
+        writePM_PGN(color, potentialMoves, potentialTakes);
     }
 
     @Override

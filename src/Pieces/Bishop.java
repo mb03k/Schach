@@ -3,8 +3,8 @@ package Pieces;
 import Logic.CalculateDiagonals;
 import java.util.ArrayList;
 
-import static GameData.Data.setColorPGN;
 import static Logic.CheckRequirements.*;
+import static GameData.Data.*;
 
 public class Bishop extends Piece {
     private final String color;
@@ -53,6 +53,8 @@ public class Bishop extends Piece {
         cd.setPosition(position);
         potentialMoves = cd.calculateDiagonal();
         potentialTakes = cd.getPossibleTakesOfPieces();
+
+        writePM_PGN(color, potentialMoves, potentialTakes);
     }
 
     @Override

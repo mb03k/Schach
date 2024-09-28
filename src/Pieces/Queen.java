@@ -1,14 +1,10 @@
 package Pieces;
 
-import Logic.CalculateDiagonals;
-import Logic.CalculateHorizontals;
-import Logic.PawnMoves;
 import Logic.QueenMoves;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import static GameData.Data.*;
 
-import static GameData.Data.setColorPGN;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Queen extends Piece {
@@ -18,8 +14,6 @@ public class Queen extends Piece {
     private int[] newPosition;
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
-    private ArrayList<int[]> potentialTakesHorizontal = new ArrayList<>();
-    private ArrayList<int[]> potentialTakesDiagonal = new ArrayList<>();
 
     public Queen(String color) {
         this.color = color;
@@ -53,6 +47,8 @@ public class Queen extends Piece {
         qm.setPosition(position);
         potentialMoves = qm.calculateMoves();
         potentialTakes = qm.getPossibleTakesOfPieces();
+
+        writePM_PGN(color, potentialMoves, potentialTakes);
     }
 
     @Override

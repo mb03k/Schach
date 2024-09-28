@@ -1,8 +1,8 @@
 package Pieces;
 
-import Logic.CalculateHorizontals;
 import java.util.ArrayList;
-import static GameData.Data.setColorPGN;
+import static GameData.Data.*;
+import Logic.CalculateHorizontals;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Rook extends Piece {
@@ -46,6 +46,8 @@ public class Rook extends Piece {
         ch.setPosition(position);
         potentialMoves = ch.calculateHorizontals();
         potentialTakes = ch.getPossibleTakesOfPieces();
+
+        writePM_PGN(color, potentialMoves, potentialTakes);
     }
 
     @Override

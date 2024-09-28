@@ -1,6 +1,7 @@
 package Pieces;
 
 import java.util.ArrayList;
+import static GameData.Data.*;
 
 public abstract class Piece {
     private int[] position;

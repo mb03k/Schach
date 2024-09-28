@@ -1,10 +1,9 @@
 package Pieces;
 
-import Logic.CalculateHorizontals;
 import Logic.PawnMoves;
 
 import java.util.ArrayList;
-import static GameData.Data.setColorPGN;
+import static GameData.Data.*;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class Pawn extends Piece {
@@ -57,6 +56,17 @@ public class Pawn extends Piece {
         pm.setPosition(position);
         potentialMoves = pm.calculateMoves();
         potentialTakes = pm.getPossibleTakesOfPieces();
+
+        writePM_PGN(color, null, pm.getValuesFor_PM_PGN());
+
+        /*ArrayList<int[]> haus = new ArrayList<>();
+        haus = pm.getValuesFor_PM_PGN();
+
+        System.out.println("\n\nvaluesBauern:");
+        for (int[] h : haus) {
+            System.out.println(h[0]+"|"+h[1]);
+        }
+        System.out.println("\n\n");*/
     }
 
     @Override
