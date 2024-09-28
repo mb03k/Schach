@@ -2,6 +2,8 @@ package Pieces;
 
 import Logic.CalculateDiagonals;
 import Logic.CalculateHorizontals;
+import Logic.PawnMoves;
+import Logic.QueenMoves;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -47,27 +49,10 @@ public class Queen extends Piece {
 
     public void calculateMoves(int y, int x) {
         position = new int[]{y,x};
-        potentialMoves = new ArrayList<>();
-        ArrayList<int[]> potentialDiagonals;
-        ArrayList<int[]> potentialHorizontals;
-
-        CalculateDiagonals cd = new CalculateDiagonals();
-        CalculateHorizontals ch = new CalculateHorizontals();
-
-        cd.setPosition(position);
-        ch.setPosition(position);
-
-        potentialDiagonals = cd.calculateDiagonal();
-        potentialHorizontals = ch.calculateHorizontals();
-
-        potentialTakesHorizontal = ch.getPossibleTakesOfPieces();
-        potentialTakesDiagonal = cd.getPossibleTakesOfPieces();
-
-        potentialMoves.addAll(potentialDiagonals);
-        potentialMoves.addAll(potentialHorizontals);
-
-        potentialTakes.addAll(potentialTakesHorizontal);
-        potentialTakes.addAll(potentialTakesDiagonal);
+        QueenMoves qm = new QueenMoves();
+        qm.setPosition(position);
+        potentialMoves = qm.calculateMoves();
+        potentialTakes = qm.getPossibleTakesOfPieces();
     }
 
     @Override
