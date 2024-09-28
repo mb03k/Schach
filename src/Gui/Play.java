@@ -5,7 +5,6 @@ import Pieces.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static GameData.Data.*;
 import static Logic.CheckRequirements.checkPieceMoveOrTake;
@@ -31,15 +30,24 @@ public class Play {
     public void setPlayingField() {
         setMenuBar();
         setPlayingFieldGridLayout();
+        setStandardPM_PGN();
         board = new JPanel[8][8];
 
         // creates 64 squares with buttons and pieces
         for (int y=0; y<8; y++) { // vertical
             for (int x=0; x<8; x++) { // horizontal
-                addPlayingFieldContent(y, x);
                 pgn[y][x].calculateMoves(y, x);
+                addPlayingFieldContent(y, x);
             }
         }
+
+        System.out.println("white");
+        for (int i=0; i<8; i++) {
+            for (int j=0; j<8; j++) {
+                System.out.print(whitesPM_PGN[i][j]+" | ");
+            }
+            System.out.println();
+        }System.out.println("\n\n");
 
         frame.setVisible(true);
     }
@@ -81,6 +89,8 @@ public class Play {
                 break;
             case 3:
                 board[y][x].setBackground(Color.decode("#ffaeff"));
+            case 4:
+                board[y][x].setBackground(Color.RED);
             default:
         }
     }
