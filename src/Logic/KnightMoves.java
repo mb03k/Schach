@@ -10,12 +10,10 @@ import static GameData.Data.pgn;
 public class KnightMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
-    private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
 
     public KnightMoves() {
-        potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
     }
@@ -40,7 +38,7 @@ public class KnightMoves extends Logic {
                 {-1,-2}, // left bottom
         };
 
-        for (int i=0; i<8; i++) {
+        for (int i=0; i<drc.length; i++) {
             setTempPosition();
             calculateMoves(drc[i][0], drc[i][1]);
         }

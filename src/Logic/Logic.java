@@ -15,6 +15,7 @@ public abstract class Logic {
         return pgn[position[y]][position[x]].getColor().equals(currentPlayer);
     }
 
+    // white takes black or black takes white
     protected static boolean pieceCanBeTaken(int[] tempPosition) {
         return whitesMove() && !newPieceIsSameColor(tempPosition) || !whitesMove() && !newPieceIsSameColor(tempPosition);
     }
