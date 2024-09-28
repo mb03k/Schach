@@ -10,12 +10,10 @@ import static GameData.Data.pgn;
 public class CalculateHorizontals extends Logic {
     private int[] position;
     private int[] tempPosition;
-    private ArrayList<int[]> potentialMoves;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
 
     public CalculateHorizontals() {
-        potentialMoves = new ArrayList<>();
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
     }

@@ -32,10 +32,6 @@ public class CalculateDiagonals {
     }
 
     public ArrayList<int[]> calculateDiagonal() {
-        if (position[0]==7 && position[1]==3) {
-System.out.println("DAME");
-        }
-
         setTempPosition();
         calculateDiagonal(-1, 1);
 
