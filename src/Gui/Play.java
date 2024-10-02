@@ -41,14 +41,6 @@ public class Play {
             }
         }
 
-        System.out.println("white");
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
-                System.out.print(whitesPM_PGN[i][j]+" | ");
-            }
-            System.out.println();
-        }System.out.println("\n\n");
-
         frame.setVisible(true);
     }
 
@@ -85,10 +77,10 @@ public class Play {
                 board[y][x].setBackground(Color.decode("#eeeed2")); // white
                 break;
             case 2:
-                board[y][x].setBackground(Color.decode("#FFDBBB"));
+                board[y][x].setBackground(Color.decode("#faaf6b")); // light orange
                 break;
             case 3:
-                board[y][x].setBackground(Color.decode("#ffaeff"));
+                board[y][x].setBackground(Color.decode("#ffaeff")); // magenta
             case 4:
                 board[y][x].setBackground(Color.RED);
             default:

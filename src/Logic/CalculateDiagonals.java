@@ -56,13 +56,18 @@ public class CalculateDiagonals {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
+                /*if (whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
+                }*/
+                // same as if else above
+                if (newPieceIsSameColor(tempPosition)) {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                    break;
                 }
 
-                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+                if (isEmptyField(tempPosition[y], tempPosition[x])) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 }
