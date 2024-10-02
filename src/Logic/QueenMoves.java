@@ -59,9 +59,14 @@ public class QueenMoves extends Logic {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
+                /*if (whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
+                    break;
+                }*/
+                // same as if else above
+                if (newPieceIsSameColor(tempPosition)) {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
 
@@ -100,9 +105,14 @@ public class QueenMoves extends Logic {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
+                /*if (whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
+                    break;
+                }*/
+                // same as if else above
+                if (newPieceIsSameColor(tempPosition)) {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {

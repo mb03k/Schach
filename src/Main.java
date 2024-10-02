@@ -1,6 +1,5 @@
 import Gui.Frame;
 import Gui.Homescreen;
-
 import javax.swing.*;
 
 public class Main {

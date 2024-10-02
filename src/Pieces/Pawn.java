@@ -56,10 +56,9 @@ public class Pawn extends Piece {
         pm.setPosition(position);
         potentialMoves = pm.calculateMoves();
         potentialTakes = pm.getPossibleTakesOfPieces();
-        ArrayList<int[]> valuesPM = pm.getValuesForPM_PGN();
 
         // HERES A BUG: getValues is null every time
-        writePM_PGN(color, valuesPM);
+        writePM_PGN(color, pm.getValuesForPM_PGN());
     }
 
     @Override

@@ -38,9 +38,9 @@ public class KingMoves extends Logic {
             {1,1}, // bottom right
         };
 
-        for (int i=0; i<8; i++) {
+        for (int i[] : drc) {
             setTempPosition();
-            calculateMoves(drc[i][0], drc[i][1]);
+            calculateMoves(drc[i[0]][0], drc[i[1]][1]);
         }
         return potentialMovesStorage;
     }
@@ -49,7 +49,7 @@ public class KingMoves extends Logic {
         tempPosition[y]+=yDirection;
         tempPosition[x]+=xDirection;
         try {
-            if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+            if (isEmptyField(tempPosition[y], tempPosition[x])) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}

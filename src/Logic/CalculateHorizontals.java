@@ -55,13 +55,12 @@ public class CalculateHorizontals extends Logic {
                 } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
                     break;
                 }
-                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+                if (isEmptyField(tempPosition[y], tempPosition[x])) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 } else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-                    System.out.println("Kann HORIZONTAL schlagen"+tempPosition[y]+"|"+tempPosition[x]);
                     break;
                 }
             }
