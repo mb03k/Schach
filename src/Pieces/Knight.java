@@ -47,7 +47,7 @@ public class Knight extends Piece {
         potentialMoves = ck.calculateMoves();
         potentialTakes = ck.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, potentialMoves, potentialTakes);
+        writePM_PGN(color, ck.getValuesForPM_PGN());
     }
 
     @Override

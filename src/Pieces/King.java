@@ -48,7 +48,7 @@ public class King extends Piece {
         km.setPosition(position);
         potentialMoves = km.calculateMoves();
 
-        writePM_PGN(color, potentialMoves, potentialTakes);
+        writePM_PGN(color, km.getValuesForPM_PGN());
     }
 
     @Override

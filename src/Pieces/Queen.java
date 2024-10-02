@@ -48,7 +48,7 @@ public class Queen extends Piece {
         potentialMoves = qm.calculateMoves();
         potentialTakes = qm.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, potentialMoves, potentialTakes);
+        writePM_PGN(color, qm.getValuesForPM_PGN());
     }
 
     @Override

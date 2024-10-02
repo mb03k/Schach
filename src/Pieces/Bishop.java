@@ -54,7 +54,7 @@ public class Bishop extends Piece {
         potentialMoves = cd.calculateDiagonal();
         potentialTakes = cd.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, potentialMoves, potentialTakes);
+        writePM_PGN(color, cd.getValuesForPM_PGN());
     }
 
     @Override

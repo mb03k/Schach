@@ -47,7 +47,7 @@ public class Rook extends Piece {
         potentialMoves = ch.calculateHorizontals();
         potentialTakes = ch.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, potentialMoves, potentialTakes);
+        writePM_PGN(color, ch.getValuesForPM_PGN());
     }
 
     @Override
