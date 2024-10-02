@@ -67,22 +67,45 @@ public class PawnMoves extends Logic {
     }
 
     private void calculateTakes(int yDirection) {
+        calculateTakesLeft(yDirection);
+        setTempPosition();
+        calculateTakesRight(yDirection);
+    }
+    
+    private void calculateTakesLeft(int yDirection) {
         tempPosition[y] += yDirection;
         tempPosition[x]--;
 
         try {
-            // left or right sides of pawn are occupied and capturable
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
-                possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
+                if (pieceCanBeTaken(tempPosition)) {
+                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                } else {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                }
+            } else {
                 valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
             }
-        } catch(Exception ignored) {
-            tempPosition[x] += 2;
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) && pieceCanBeTaken(tempPosition)) {
-                possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+        } catch(Exception ignored) {}
+    }
+
+    private void calculateTakesRight(int yDirection) {
+        tempPosition[y] += yDirection;
+        tempPosition[x]++;
+
+        try {
+            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
+                if (pieceCanBeTaken(tempPosition)) {
+                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                } else {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                }
+            } else {
                 valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
             }
-        }
+        } catch(Exception ignored) {}
     }
 
     private boolean pawnIsWhite() {
