@@ -15,10 +15,12 @@ public class QueenMoves extends Logic {
     private int[] tempPosition;
     private final ArrayList<int[]> potentialMovesStorage;
     private final ArrayList<int[]> possibleTakesOfPieces;
+    private ArrayList<int[]> valuesForPM_PGN;
 
     public QueenMoves() {
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
+        valuesForPM_PGN = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -65,10 +67,12 @@ public class QueenMoves extends Logic {
 
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 }
                 // if a piece is detected
                 else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
             }
@@ -103,8 +107,10 @@ public class QueenMoves extends Logic {
                 }
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 } else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
             }
@@ -113,5 +119,9 @@ public class QueenMoves extends Logic {
 
     public ArrayList<int[]> getPossibleTakesOfPieces() {
         return this.possibleTakesOfPieces;
+    }
+
+    public ArrayList<int[]> getValuesForPM_PGN() {
+        return valuesForPM_PGN;
     }
 }

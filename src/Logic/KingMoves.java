@@ -11,9 +11,11 @@ public class KingMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
     private ArrayList<int[]> potentialMovesStorage;
+    private ArrayList<int[]> valuesForPM_PGN;
 
     public KingMoves() {
         potentialMovesStorage = new ArrayList<>();
+        valuesForPM_PGN = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -51,5 +53,9 @@ public class KingMoves extends Logic {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
+    }
+
+    public ArrayList<int[]> getValuesForPM_PGN() {
+        return valuesForPM_PGN;
     }
 }

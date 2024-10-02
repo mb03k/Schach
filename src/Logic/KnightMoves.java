@@ -12,10 +12,12 @@ public class KnightMoves extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
+    private ArrayList<int[]> valuesForPM_PGN;
 
     public KnightMoves() {
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
+        valuesForPM_PGN = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -52,9 +54,11 @@ public class KnightMoves extends Logic {
         try {
             if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
+                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
             } else {
                 if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[] {tempPosition[0], tempPosition[1]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
@@ -62,5 +66,9 @@ public class KnightMoves extends Logic {
 
     public ArrayList<int[]> getPossibleTakesOfPieces() {
         return possibleTakesOfPieces;
+    }
+
+    public ArrayList<int[]> getValuesForPM_PGN() {
+        return valuesForPM_PGN;
     }
 }

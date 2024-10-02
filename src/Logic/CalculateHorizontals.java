@@ -12,10 +12,12 @@ public class CalculateHorizontals extends Logic {
     private int[] tempPosition;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
+    private ArrayList<int[]> valuesForPM_PGN;
 
     public CalculateHorizontals() {
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
+        valuesForPM_PGN = new ArrayList<>();
     }
 
     public void setPosition(int[] position) {
@@ -55,8 +57,11 @@ public class CalculateHorizontals extends Logic {
                 }
                 if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 } else if (pieceCanBeTaken(tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                    System.out.println("Kann HORIZONTAL schlagen"+tempPosition[y]+"|"+tempPosition[x]);
                     break;
                 }
             }
@@ -65,5 +70,9 @@ public class CalculateHorizontals extends Logic {
 
     public ArrayList<int[]> getPossibleTakesOfPieces() {
         return this.possibleTakesOfPieces;
+    }
+
+    public ArrayList<int[]> getValuesForPM_PGN() {
+        return valuesForPM_PGN;
     }
 }
