@@ -1,20 +1,18 @@
 package Logic;
 
-import Pieces.EmptyField;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static GameData.Data.pgn;
 
 public class KingMoves extends Logic {
     private int[] position;
     private int[] tempPosition;
     private ArrayList<int[]> potentialMovesStorage;
+    private ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
 
     public KingMoves() {
         potentialMovesStorage = new ArrayList<>();
+        possibleTakesOfPieces = new ArrayList<>();
         valuesForPM_PGN = new ArrayList<>();
     }
 
@@ -38,9 +36,9 @@ public class KingMoves extends Logic {
             {1,1}, // bottom right
         };
 
-        for (int i[] : drc) {
+        for (int i=0; i<8; i++) {
             setTempPosition();
-            calculateMoves(drc[i[0]][0], drc[i[1]][1]);
+            calculateMoves(drc[i][0], drc[i][1]);
         }
         return potentialMovesStorage;
     }
@@ -48,9 +46,17 @@ public class KingMoves extends Logic {
     private void calculateMoves(int yDirection, int xDirection) {
         tempPosition[y]+=yDirection;
         tempPosition[x]+=xDirection;
+
+        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
         try {
             if (isEmptyField(tempPosition[y], tempPosition[x])) {
-                potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
+                if (!otherColorSeesTheField(tempPosition[y], tempPosition[x])) {
+                    potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
+                }
+            } else {
+                if (pieceCanBeTaken(position, tempPosition) && !otherColorSeesTheField(tempPosition[0], tempPosition[1])) {
+                    possibleTakesOfPieces.add(new int[]{tempPosition[0],tempPosition[1]});
+                }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
     }

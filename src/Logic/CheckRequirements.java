@@ -11,11 +11,14 @@ public class CheckRequirements {
     }
 
     public static boolean checkPieceMoveOrTake(int[] newPosition, ArrayList<int[]> potentialMoves) {
-        for (int[] move : potentialMoves) {
-            if (Arrays.equals(move, newPosition)) {
-                return true;
+        try {
+            for (int[] move : potentialMoves) {
+                if (Arrays.equals(move, newPosition)) {
+                    return true;
+                }
             }
-        }
+        } catch (Exception igored) {}
+        
         return false;
     }
 }

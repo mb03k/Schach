@@ -1,11 +1,7 @@
 package Logic;
 
-import Pieces.EmptyField;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static GameData.Data.pgn;
 
 public class CalculateHorizontals extends Logic {
     private int[] position;
@@ -50,17 +46,16 @@ public class CalculateHorizontals extends Logic {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                if (whitesMove() && newPieceIsSameColor(tempPosition)) {
-                    break;
-                } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
+                if (newPieceIsSameColor(position, tempPosition)) {
+                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
+                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+
                 if (isEmptyField(tempPosition[y], tempPosition[x])) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (pieceCanBeTaken(tempPosition)) {
+                } else if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
             }

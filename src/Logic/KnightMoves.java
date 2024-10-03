@@ -51,14 +51,15 @@ public class KnightMoves extends Logic {
     private void calculateMoves(int yDirection, int xDirection) {
         tempPosition[y]+=yDirection;
         tempPosition[x]+=xDirection;
+        valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
         try {
             if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
                 potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
-                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                //valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
             } else {
-                if (pieceCanBeTaken(tempPosition)) {
+                if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[] {tempPosition[0], tempPosition[1]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                    //valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
