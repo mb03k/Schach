@@ -76,34 +76,26 @@ public class PawnMoves extends Logic {
         tempPosition[y] += yDirection;
         tempPosition[x]--;
 
+        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
         try {
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
-                if (pieceCanBeTaken(tempPosition)) {
+            if (!isEmptyField(tempPosition[y], tempPosition[x])) {
+                if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
-                } else {
-                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
-                }
-            } else {
-                valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
-            }
+                } 
+            } 
         } catch(Exception ignored) {}
     }
 
     private void calculateTakesRight(int yDirection) {
         tempPosition[y] += yDirection;
         tempPosition[x]++;
-
+        
+        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
         try {
-            if (!(pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField)) {
-                if (pieceCanBeTaken(tempPosition)) {
+            if (!isEmptyField(tempPosition[y], tempPosition[x])) {
+                if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
-                } else {
-                    valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
                 }
-            } else {
-                valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
             }
         } catch(Exception ignored) {}
     }
