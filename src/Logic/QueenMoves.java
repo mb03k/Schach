@@ -3,9 +3,6 @@ package Logic;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Pieces.EmptyField;
-
-import static GameData.Data.pgn;
 
 public class QueenMoves extends Logic {
     private final int y = 0;
@@ -59,23 +56,17 @@ public class QueenMoves extends Logic {
                 tempPosition[x] += xDirection;
 
                 // same color on the diagonal (cant move further)
-                /*if (whitesMove() && newPieceIsSameColor(tempPosition)) {
-                    break;
-                } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
-                    break;
-                }*/
-                // same as if else above
-                if (newPieceIsSameColor(tempPosition)) {
+                if (newPieceIsSameColor(position, tempPosition)) {
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
                 }
 
-                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+                if (isEmptyField(tempPosition[y], tempPosition[x])) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                 }
                 // if a piece is detected
-                else if (pieceCanBeTaken(tempPosition)) {
+                else if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
@@ -104,21 +95,19 @@ public class QueenMoves extends Logic {
                 tempPosition[y] += yDirection;
                 tempPosition[x] += xDirection;
 
+                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+
                 // same color on the diagonal (cant move further)
-                /*if (whitesMove() && newPieceIsSameColor(tempPosition)) {
-                    break;
-                } else if (!whitesMove() && newPieceIsSameColor(tempPosition)) {
-                    break;
-                }*/
-                // same as if else above
-                if (newPieceIsSameColor(tempPosition)) {
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                if (newPieceIsSameColor(position, tempPosition)) {
                     break;
                 }
-                if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
+
+                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+
+                if (isEmptyField(tempPosition[y], tempPosition[x])) {
                     potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (pieceCanBeTaken(tempPosition)) {
+                } else if (pieceCanBeTaken(position, tempPosition)) {
                     possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
                     valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
                     break;
