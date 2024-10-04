@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static GameData.Data.*;
+import static java.lang.String.valueOf;
 import static java.lang.System.exit;
 import static Logic.Logic.*;
 
