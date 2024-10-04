@@ -1,11 +1,14 @@
 package Logic;
 
+import static GameData.Data.pgn;
+import static GameData.Data.whitesPM_PGN;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class KingMoves extends Logic {
     private int[] position;
-    private int[] tempPosition;
+    private int[] newPosition;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
@@ -20,8 +23,8 @@ public class KingMoves extends Logic {
         this.position = position;
     }
 
-    public void setTempPosition() {
-        this.tempPosition = Arrays.copyOf(position, position.length);
+    public void setnewPosition() {
+        this.newPosition = Arrays.copyOf(position, position.length);
     }
 
     public ArrayList<int[]> calculateMoves() {
@@ -37,25 +40,36 @@ public class KingMoves extends Logic {
         };
 
         for (int i=0; i<8; i++) {
-            setTempPosition();
+            setnewPosition();
             calculateMoves(drc[i][0], drc[i][1]);
         }
         return potentialMovesStorage;
     }
 
     private void calculateMoves(int yDirection, int xDirection) {
-        tempPosition[y]+=yDirection;
-        tempPosition[x]+=xDirection;
+        newPosition[y]+=yDirection;
+        newPosition[x]+=xDirection;
+        String color = pgn[position[0]][position[1]].getColor();
+        valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
 
-        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
         try {
-            if (isEmptyField(tempPosition[y], tempPosition[x])) {
-                if (!otherColorSeesTheField(tempPosition[y], tempPosition[x])) {
-                    potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
+            if (isEmptyField(newPosition[y], newPosition[x])) {
+                if (!otherColorSeesTheField(newPosition, color)) { 
+                    if (color.equals("b")){
+                        System.out.println("adding: "+newPosition[0]+"|"+newPosition[1]+ " - denn besetzt="+whitesPM_PGN[newPosition[0]][newPosition[1]]);
+                        System.out.println("DEBUGWEISS:");
+                        for (int i=0; i<8; i++) {
+                            for (int j=0; j<8; j++) {
+                                System.out.print(whitesPM_PGN[i][j]+"|");
+                            }
+                            System.out.println();
+                        }
+                    }
+                    potentialMovesStorage.add(new int[]{newPosition[0], newPosition[1]});
                 }
             } else {
-                if (pieceCanBeTaken(position, tempPosition) && !otherColorSeesTheField(tempPosition[0], tempPosition[1])) {
-                    possibleTakesOfPieces.add(new int[]{tempPosition[0],tempPosition[1]});
+                if (pieceCanBeTaken(position, newPosition) && !otherColorSeesTheField(newPosition, color)) {
+                    possibleTakesOfPieces.add(new int[]{newPosition[0],newPosition[1]});
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
@@ -63,5 +77,9 @@ public class KingMoves extends Logic {
 
     public ArrayList<int[]> getValuesForPM_PGN() {
         return valuesForPM_PGN;
+    }
+
+    public ArrayList<int[]> getPossibleTakesOfPieces() {
+        return possibleTakesOfPieces;
     }
 }

@@ -9,7 +9,7 @@ public class QueenMoves extends Logic {
     private final int x = 1;
 
     private int[] position;
-    private int[] tempPosition;
+    private int[] newPosition;
     private final ArrayList<int[]> potentialMovesStorage;
     private final ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
@@ -24,8 +24,8 @@ public class QueenMoves extends Logic {
         this.position = position;
     }
 
-    public void setTempPosition() {
-        this.tempPosition = Arrays.copyOf(position, position.length);
+    public void setNewPosition() {
+        this.newPosition = Arrays.copyOf(position, position.length);
     }
 
     public ArrayList<int[]> calculateMoves() {
@@ -36,39 +36,35 @@ public class QueenMoves extends Logic {
     }
 
     public void calculateDiagonal() {
-        setTempPosition();
+        setNewPosition();
         calculateDiagonal(-1, 1);
 
-        setTempPosition();
+        setNewPosition();
         calculateDiagonal(-1, -1);
 
-        setTempPosition();
+        setNewPosition();
         calculateDiagonal(1, 1);
 
-        setTempPosition();
+        setNewPosition();
         calculateDiagonal(1,-1);
     }
 
     private void calculateDiagonal(int yDirection, int xDirection) {
         try {
             for (int i=0; i<8; i++) {
-                tempPosition[y] += yDirection;
-                tempPosition[x] += xDirection;
+                newPosition[y] += yDirection;
+                newPosition[x] += xDirection;
 
-                // same color on the diagonal (cant move further)
-                if (newPieceIsSameColor(position, tempPosition)) {
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
+
+                if (newPieceIsSameColor(position, newPosition)) {
                     break;
-                }
-
-                if (isEmptyField(tempPosition[y], tempPosition[x])) {
-                    potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-                }
-                // if a piece is detected
-                else if (pieceCanBeTaken(position, tempPosition)) {
-                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                } 
+                
+                if (isEmptyField(newPosition[y], newPosition[x])) {
+                    potentialMovesStorage.add(new int[]{newPosition[y],newPosition[x]});
+                } else if (!newPieceIsSameColor(position, newPosition)) {
+                    possibleTakesOfPieces.add(new int[]{newPosition[y], newPosition[x]});
                     break;
                 }
             }
@@ -76,40 +72,35 @@ public class QueenMoves extends Logic {
     }
 
     public void calculateHorizontals() {
-        setTempPosition();
+        setNewPosition();
         calculateHorizontals(0, 1);
 
-        setTempPosition();
+        setNewPosition();
         calculateHorizontals(0, -1);
 
-        setTempPosition();
+        setNewPosition();
         calculateHorizontals(1, 0);
 
-        setTempPosition();
+        setNewPosition();
         calculateHorizontals(-1, 0);
     }
 
     private void calculateHorizontals(int yDirection, int xDirection) {
         try {
             for (int i=0; i<8; i++) {
-                tempPosition[y] += yDirection;
-                tempPosition[x] += xDirection;
+                newPosition[y] += yDirection;
+                newPosition[x] += xDirection;
 
-                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
 
-                // same color on the diagonal (cant move further)
-                if (newPieceIsSameColor(position, tempPosition)) {
+                if (newPieceIsSameColor(position, newPosition)) {
                     break;
-                }
-
-                valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-
-                if (isEmptyField(tempPosition[y], tempPosition[x])) {
-                    potentialMovesStorage.add(new int[]{tempPosition[y],tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
-                } else if (pieceCanBeTaken(position, tempPosition)) {
-                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
-                    valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+                } 
+                
+                if (isEmptyField(newPosition[y], newPosition[x])) {
+                    potentialMovesStorage.add(new int[]{newPosition[y],newPosition[x]});
+                } else if (!newPieceIsSameColor(position, newPosition)) {
+                    possibleTakesOfPieces.add(new int[]{newPosition[y], newPosition[x]});
                     break;
                 }
             }

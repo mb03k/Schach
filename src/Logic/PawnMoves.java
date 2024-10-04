@@ -9,7 +9,8 @@ import static GameData.Data.pgn;
 
 public class PawnMoves extends Logic {
     private int[] position;
-    private int[] tempPosition;
+    private int[] newPosition;
+    private boolean pieceInTheWay = false;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
@@ -24,33 +25,33 @@ public class PawnMoves extends Logic {
         this.position = position;
     }
 
-    public void setTempPosition() {
-        this.tempPosition = Arrays.copyOf(position, position.length);
+    public void setNewPosition() {
+        this.newPosition = Arrays.copyOf(position, position.length);
     }
 
     public ArrayList<int[]> calculateMoves() {
         // Bug: wenn Bauer zwei Felder gehen kann und das erste Feld besetzt ist, aber nicht das zweite
         // kann er trotzdem auf das zweite Feld gehen
         if (pawnIsWhite()) {
-            setTempPosition();
+            setNewPosition();
             calculateMoves(-1);
 
-            setTempPosition();
+            setNewPosition();
             calculateTakes(-1);
 
             if (firstPawnMove()) {
-                setTempPosition();
+                setNewPosition();
                 calculateMoves(-2);
             }
         } else {
-            setTempPosition();
+            setNewPosition();
             calculateMoves(1);
 
-            setTempPosition();
+            setNewPosition();
             calculateTakes(1);
 
             if (firstPawnMove()) {
-                setTempPosition();
+                setNewPosition();
                 calculateMoves(2);
             }
         }
@@ -58,43 +59,51 @@ public class PawnMoves extends Logic {
     }
 
     private void calculateMoves(int yDirection) {
-        tempPosition[y] += yDirection;
+        newPosition[y] += yDirection;
         try {
-            if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
-                potentialMovesStorage.add(new int[] {tempPosition[y], tempPosition[x]});
+            // !pieceInTheWay fixes the bug that pawn could move 2 squares - even if on the first one
+            // is another piece
+            if (pgn[newPosition[y]][newPosition[x]] instanceof EmptyField && !pieceInTheWay) {
+                potentialMovesStorage.add(new int[] {newPosition[y], newPosition[x]});
+            } else {
+                pieceInTheWay = true;
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
     }
 
+
+    
     private void calculateTakes(int yDirection) {
         calculateTakesLeft(yDirection);
-        setTempPosition();
+        setNewPosition();
         calculateTakesRight(yDirection);
     }
     
     private void calculateTakesLeft(int yDirection) {
-        tempPosition[y] += yDirection;
-        tempPosition[x]--;
+        newPosition[y] += yDirection;
+        newPosition[x]--;
 
-        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+        valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
+
         try {
-            if (!isEmptyField(tempPosition[y], tempPosition[x])) {
-                if (pieceCanBeTaken(position, tempPosition)) {
-                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+            if (!isEmptyField(newPosition[y], newPosition[x])) {
+                if (pieceCanBeTaken(position, newPosition)) {
+                    possibleTakesOfPieces.add(new int[]{newPosition[y], newPosition[x]});
                 } 
             } 
         } catch(Exception ignored) {}
     }
 
     private void calculateTakesRight(int yDirection) {
-        tempPosition[y] += yDirection;
-        tempPosition[x]++;
+        newPosition[y] += yDirection;
+        newPosition[x]++;
         
-        valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+        valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
+        
         try {
-            if (!isEmptyField(tempPosition[y], tempPosition[x])) {
-                if (pieceCanBeTaken(position, tempPosition)) {
-                    possibleTakesOfPieces.add(new int[]{tempPosition[y], tempPosition[x]});
+            if (!isEmptyField(newPosition[y], newPosition[x])) {
+                if (pieceCanBeTaken(position, newPosition)) {
+                    possibleTakesOfPieces.add(new int[]{newPosition[y], newPosition[x]});
                 }
             }
         } catch(Exception ignored) {}

@@ -9,7 +9,7 @@ import static GameData.Data.pgn;
 
 public class KnightMoves extends Logic {
     private int[] position;
-    private int[] tempPosition;
+    private int[] newPosition;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
@@ -24,24 +24,24 @@ public class KnightMoves extends Logic {
         this.position = position;
     }
 
-    public void setTempPosition() {
-        this.tempPosition = Arrays.copyOf(position, position.length);
+    public void setNewPosition() {
+        this.newPosition = Arrays.copyOf(position, position.length);
     }
 
     public ArrayList<int[]> calculateMoves() {
         int[][] drc = new int[][] {
-                {-2,1}, // top right
-                {-2,-1}, // top left
-                {-1,2}, // right top
-                {1,2}, // right bottom
-                {2,1}, // bottom right
-                {2,-1}, // bottom left
-                {1,-2}, // left top
-                {-1,-2}, // left bottom
+            {-2,1}, // top right
+            {-2,-1}, // top left
+            {-1,2}, // right top
+            {1,2}, // right bottom
+            {2,1}, // bottom right
+            {2,-1}, // bottom left
+            {1,-2}, // left top
+            {-1,-2}, // left bottom
         };
 
         for (int i=0; i<drc.length; i++) {
-            setTempPosition();
+            setNewPosition();
             calculateMoves(drc[i][0], drc[i][1]);
         }
 
@@ -49,17 +49,16 @@ public class KnightMoves extends Logic {
     }
 
     private void calculateMoves(int yDirection, int xDirection) {
-        tempPosition[y]+=yDirection;
-        tempPosition[x]+=xDirection;
-        valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+        newPosition[y]+=yDirection;
+        newPosition[x]+=xDirection;
+
+        valuesForPM_PGN.add(new int[]{newPosition[y],newPosition[x]});
         try {
-            if (pgn[tempPosition[y]][tempPosition[x]] instanceof EmptyField) {
-                potentialMovesStorage.add(new int[]{tempPosition[0], tempPosition[1]});
-                //valuesForPM_PGN.add(new int[]{tempPosition[y],tempPosition[x]});
+            if (pgn[newPosition[y]][newPosition[x]] instanceof EmptyField) {
+                potentialMovesStorage.add(new int[]{newPosition[0], newPosition[1]});
             } else {
-                if (pieceCanBeTaken(position, tempPosition)) {
-                    possibleTakesOfPieces.add(new int[] {tempPosition[0], tempPosition[1]});
-                    //valuesForPM_PGN.add(new int[]{tempPosition[y], tempPosition[x]});
+                if (pieceCanBeTaken(position, newPosition)) {
+                    possibleTakesOfPieces.add(new int[] {newPosition[0], newPosition[1]});
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}

@@ -3,7 +3,11 @@ package Logic;
 import static GameData.Data.blacksPM_PGN;
 import static GameData.Data.pgn;
 import static GameData.Data.whitesPM_PGN;
-import static Gui.Play.currentPlayer;
+import static GameData.Data.currentPlayer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import Pieces.EmptyField;
 
 public abstract class Logic {
@@ -21,7 +25,12 @@ public abstract class Logic {
      * so it returned with black every time false
      */
     protected static boolean newPieceIsSameColor(int[] oldPosition, int[] newPosition) {
-        return pgn[oldPosition[0]][oldPosition[1]].getColor().equals(pgn[newPosition[0]][newPosition[1]].getColor());
+        String oldPos = pgn[oldPosition[0]][oldPosition[1]].getColor();
+        String newPos = pgn[newPosition[0]][newPosition[1]].getColor();
+        
+        return oldPos.equals(newPos);
+        
+        //return pgn[oldPosition[0]][oldPosition[1]].getColor().equals(pgn[newPosition[0]][newPosition[1]].getColor());
     }
 
     // white takes black or black takes white
@@ -30,15 +39,27 @@ public abstract class Logic {
         return !newPieceIsSameColor(position, newPosition);
     }
 
-    protected static boolean isEmptyField(int y, int x) {
+    public static boolean isEmptyField(int y, int x) {
         return pgn[y][x] instanceof EmptyField;
     }
 
-    protected static boolean otherColorSeesTheField(int y, int x) {
-        if (whitesMove()) {
-            return blacksPM_PGN[y][x] == 1;
-        }
+    protected static boolean otherColorSeesTheField(int[] pos, String color) {
+        if (color.equals("w")) {
+            return blacksPM_PGN[pos[y]][pos[x]] == 1;
+        } 
 
-        return whitesPM_PGN[y][x] == 1;
+        return whitesPM_PGN[pos[y]][pos[x]] == 1;
+    }
+
+    public static boolean checkPieceMoveOrTake(int[] newPosition, ArrayList<int[]> potentialMoves) {
+        try {
+            for (int[] move : potentialMoves) {
+                if (Arrays.equals(move, newPosition)) {
+                    return true;
+                }
+            }
+        } catch (Exception igored) {}
+        
+        return false;
     }
 }
