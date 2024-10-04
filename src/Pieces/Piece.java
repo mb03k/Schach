@@ -1,41 +1,44 @@
 package Pieces;
 
 import java.util.ArrayList;
-import static GameData.Data.*;
 
 public abstract class Piece {
-    private int[] position;
-    private int[] newPosition;
 
-    private ArrayList<Integer>[] potentialPosition;
-
-    public String getName() {
+    
+    public String getUi() {
         return "";
     }
 
-    public void calculateMoves(int y, int x) {}
-
-    public ArrayList<int[]> getMoves() {
-        return null;
+    public String getName() { // for PGN / FEN
+        return "";
     }
-
-    public boolean setNewPosition(int newy, int newx) {return false;}
 
     public String getColor() {
         return "";
+    }
+
+    public void calculateMoves(int y, int x) {
+
+    }
+
+    public ArrayList<int[]> getPotentialMoves() {
+        return null;
+    }
+
+    public ArrayList<int[]> getPotentialTakes() {
+        return null;
     }
 
     public boolean getFirstMoveTwoSteps() {
         return false;
     }
 
-    public void setFirstMoveTwoStepsFalse() {}
-
-    public ArrayList<int[]> getPotentialTakes() {
-        return null;
+    public boolean pieceCanBeMoved(int y, int x) {
+        return false;
     }
 
-    public String getUi() {
-        return null;
+    public void setFirstMoveTwoStepsFalse() {
+
     }
+
 }

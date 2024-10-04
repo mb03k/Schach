@@ -1,17 +1,16 @@
 package Pieces;
 
-import Logic.QueenMoves;
-
 import java.util.ArrayList;
-import static GameData.Data.*;
 
-import static Logic.CheckRequirements.checkPieceMoveOrTake;
+import Logic.QueenMoves;
+import static GameData.Data.writePM_PGN;
 
 public class Queen extends Piece {
+    private int[] currentPosition;
+    private int[] potentialNewPosition;
     private final String color;
     private final String ui;
-    private int[] position;
-    private int[] newPosition;
+
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
@@ -32,28 +31,25 @@ public class Queen extends Piece {
     public String getName() {
         return "Q"+color;
     }
-
-    public String getColor() {return this.color;}
-
-    public boolean setNewPosition(int newy, int newx) {
-        this.newPosition = new int[] {newy, newx};
-
-        return checkPieceMoveOrTake(newPosition, potentialMoves);
+    
+    public String getColor() {
+        return this.color;
     }
 
     public void calculateMoves(int y, int x) {
-        position = new int[]{y,x};
+        currentPosition = new int[]{y,x};
         QueenMoves qm = new QueenMoves();
-        qm.setPosition(position);
+        qm.setPosition(currentPosition);
         potentialMoves = qm.calculateMoves();
         potentialTakes = qm.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, qm.getValuesForPM_PGN());
+        ArrayList<int[]> h = qm.getValuesForPM_PGN();
+
+        writePM_PGN(color, h);
     }
 
-    @Override
-    public ArrayList<int[]> getMoves() {
-        return potentialMoves;
+    public ArrayList<int[]> getPotentialMoves() {
+        return this.potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

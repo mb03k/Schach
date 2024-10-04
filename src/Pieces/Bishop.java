@@ -1,19 +1,19 @@
 package Pieces;
 
-import Logic.CalculateDiagonals;
+import static GameData.Data.currentPlayer;
+import static GameData.Data.writePM_PGN;
+import Logic.BishopMoves;
+
 import java.util.ArrayList;
 
-import static Logic.CheckRequirements.*;
-import static GameData.Data.*;
-
 public class Bishop extends Piece {
+    private int[] currentPosition;
+    private int[] potentialNewPosition;
     private final String color;
     private final String ui;
+
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
-
-    private int[] newPosition; // {y,x}
-    private int[] position;
 
     public Bishop(String color) {
         this.color = color;
@@ -34,32 +34,22 @@ public class Bishop extends Piece {
     }
 
     public String getColor() {
-        return this.color;}
-
-    public boolean setNewPosition(int newy, int newx) {
-        this.newPosition = new int[] {newy, newx};
-
-        // return if piece can move or if piece can be taken
-        if (!checkPieceMoveOrTake(newPosition, potentialMoves)) {
-            return checkPieceMoveOrTake(newPosition, potentialTakes);
-        }
-        return true;
+        return this.color;
     }
 
     public void calculateMoves(int y, int x) {
-        position = new int[]{y, x};
+        currentPosition = new int[]{y, x};
 
-        CalculateDiagonals cd = new CalculateDiagonals();
-        cd.setPosition(position);
-        potentialMoves = cd.calculateDiagonal();
-        potentialTakes = cd.getPossibleTakesOfPieces();
+        BishopMoves bm = new BishopMoves();
+        bm.setPosition(currentPosition);
+        potentialMoves = bm.calculateDiagonal();
+        potentialTakes = bm.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, cd.getValuesForPM_PGN());
+        writePM_PGN(color, bm.getValuesForPM_PGN());
     }
 
-    @Override
-    public ArrayList<int[]> getMoves() {
-        return potentialMoves;
+    public ArrayList<int[]> getPotentialMoves() {
+        return this.potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

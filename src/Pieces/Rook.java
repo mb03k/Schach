@@ -1,15 +1,15 @@
 package Pieces;
 
+import Logic.RookMoves;
 import java.util.ArrayList;
-import static GameData.Data.*;
-import Logic.CalculateHorizontals;
-import static Logic.CheckRequirements.checkPieceMoveOrTake;
+import static GameData.Data.writePM_PGN;
 
 public class Rook extends Piece {
+    private int[] currentPosition;
+    private int[] potentialNewPosition;
     private final String color;
     private final String ui;
-    private int[] position;
-    private int[] newPosition;
+
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
@@ -30,29 +30,24 @@ public class Rook extends Piece {
     public String getName() {
         return "R"+color;
     }
-
-    public String getColor() {return this.color;}
-
-    public boolean setNewPosition(int newy, int newx) {
-        this.newPosition = new int[] {newy, newx};
-
-        return checkPieceMoveOrTake(newPosition, potentialMoves);
+    
+    public String getColor() {
+        return this.color;
     }
 
     public void calculateMoves(int y, int x) {
-        position = new int[]{y,x};
+        currentPosition = new int[]{y,x};
 
-        CalculateHorizontals ch = new CalculateHorizontals();
-        ch.setPosition(position);
-        potentialMoves = ch.calculateHorizontals();
-        potentialTakes = ch.getPossibleTakesOfPieces();
+        RookMoves rm = new RookMoves();
+        rm.setPosition(currentPosition);
+        potentialMoves = rm.calculateHorizontals();
+        potentialTakes = rm.getPossibleTakesOfPieces();
 
-        writePM_PGN(color, ch.getValuesForPM_PGN());
+        writePM_PGN(color, rm.getValuesForPM_PGN());
     }
 
-    @Override
-    public ArrayList<int[]> getMoves() {
-        return potentialMoves;
+    public ArrayList<int[]> getPotentialMoves() {
+        return this.potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {

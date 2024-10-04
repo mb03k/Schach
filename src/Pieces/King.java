@@ -1,19 +1,20 @@
 package Pieces;
 
+import static Logic.Logic.*;
+import static GameData.Data.*;
 import Logic.KingMoves;
 
 import java.util.ArrayList;
-import static GameData.Data.*;
 
-import static Logic.CheckRequirements.checkPieceMoveOrTake;
 
 public class King extends Piece {
+    private int[] currentPosition;
+    private int[] potentialNewPosition;
     private final String color;
     private final String ui;
-    private int[] position;
-    private int[] newPosition;
-    private ArrayList<int[]> potentialTakes;
-    private ArrayList<int[]> potentialMoves;
+
+    private ArrayList<int[]> potentialMoves = new ArrayList<>();
+    private ArrayList<int[]> potentialTakes = new ArrayList<>();
 
     public King(String color) {
         this.color = color;
@@ -32,28 +33,29 @@ public class King extends Piece {
     public String getName() {
         return "K"+color;
     }
-
-    public String getColor() {return this.color;}
-
-    public boolean setNewPosition(int newy, int newx) {
-        this.newPosition = new int[] {newy, newx};
-
-        return checkPieceMoveOrTake(newPosition, potentialMoves);
+    
+    public String getColor() {
+        return this.color;
     }
 
     public void calculateMoves(int y, int x) {
-        position = new int[]{y, x};
+        currentPosition = new int[]{y, x};
 
         KingMoves km = new KingMoves();
-        km.setPosition(position);
+        km.setPosition(currentPosition);
         potentialMoves = km.calculateMoves();
 
         writePM_PGN(color, km.getValuesForPM_PGN());
     }
 
-    @Override
-    public ArrayList<int[]> getMoves() {
-        return potentialMoves;
+    public boolean pieceCanBeMoved(int y, int x) {
+        this.potentialNewPosition = new int[] {y, x};
+
+        return checkPieceMoveOrTake(potentialNewPosition, potentialMoves);
+    }
+
+    public ArrayList<int[]> getPotentialMoves() {
+        return this.potentialMoves;
     }
 
     public ArrayList<int[]> getPotentialTakes() {
