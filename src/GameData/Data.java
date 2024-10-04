@@ -2,9 +2,13 @@ package GameData;
 
 import Pieces.*;
 
+import static java.lang.System.setOut;
+
 import java.util.ArrayList;
 
 public class Data {
+    public static String currentPlayer;
+
     public static int[][] colorPGN = new int[][] {
         // 0 = black; 1 = white; 2 = orange; 3 = red
         {1, 0, 1, 0, 1, 0, 1, 0},
@@ -44,8 +48,8 @@ public class Data {
         {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
         {new Bishop("b"), new Pawn("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
         {new EmptyField(), new Knight("w"), new Bishop("w"), new Pawn("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
-        {new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
-        {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new EmptyField()},
+        {new Pawn("b"), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField(), new EmptyField()},
+        {new Pawn("w"), new Pawn("w"), new Pawn("w"), new Pawn("w"), new EmptyField(), new Pawn("w"), new Pawn("w"), new EmptyField()},
         {new Rook("w"), new Knight("w"), new Bishop("w"), new Queen("w"), new King("w"), new Bishop("w"), new Knight("w"), new Rook("w")}
     };
 
@@ -82,6 +86,17 @@ public class Data {
             {0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0}
         };
+
+        blacksPM_PGN = new int[][] {
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0}
+        };
     }
 
     public static void writePM_PGN(String color, ArrayList<int[]> moves) {
@@ -91,9 +106,15 @@ public class Data {
             writeBlacksPM_PNG(moves);
         }
     }
+
+    // OUT OF BOUNDS STOPPT DIE AUFNAHME OMG
     private static void writeWhitesPM_PNG(ArrayList<int[]> moves) {
         try {
             for (int[] move : moves) {
+                if (outOfBounds(move)) {
+                    continue;
+                }
+
                 whitesPM_PGN[move[0]][move[1]] = 1;
             }
         } catch (Exception e) {}
@@ -102,9 +123,17 @@ public class Data {
     private static void writeBlacksPM_PNG(ArrayList<int[]> moves) {
         try {
             for (int[] move : moves) {
+                if (outOfBounds(move)) {
+                    continue;
+                }
+
                 blacksPM_PGN[move[0]][move[1]] = 1;
             }
         } catch (Exception e) {}
+    }
+
+    private static boolean outOfBounds(int[] move) {
+        return move[0]<0 || move[0]>7 || move[1]<0 || move[1]>7;
     }
 
     // ♚ ♛ ♜ ♝ ♞ ♟ schwarz
