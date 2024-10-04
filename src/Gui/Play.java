@@ -7,15 +7,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static GameData.Data.*;
-import static Logic.CheckRequirements.checkPieceMoveOrTake;
-import static java.lang.String.valueOf;
 import static java.lang.System.exit;
+import static Logic.Logic.*;
 
 public class Play {
 
     private JFrame frame;
     private JPanel fieldButtonPanel;
-    public static String currentPlayer;
 
     public int[] oldPosition = new int[2];
 
@@ -30,7 +28,6 @@ public class Play {
     public void setPlayingField() {
         setMenuBar();
         setPlayingFieldGridLayout();
-        setStandardPM_PGN();
         board = new JPanel[8][8];
 
         // creates 64 squares with buttons and pieces
@@ -40,22 +37,34 @@ public class Play {
                 addPlayingFieldContent(y, x);
             }
         }
-
-        System.out.println("PM_PGN: weiss");
+        
+        setStandardPM_PGN();
+        
+        System.out.println("weiß;");
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                System.out.print(whitesPM_PGN[i][j]+" | ");
-            } System.out.println();
+                System.out.print(whitesPM_PGN[i][j]+"|");
+            }
+            System.out.println();
         }
 
-        System.out.println("\n\n\nblack:");
+        System.out.println("\nschwarz:");
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                System.out.print(blacksPM_PGN[i][j]+" | ");
-            } System.out.println();
+                System.out.print(blacksPM_PGN[i][j]+"|");
+            }
+            System.out.println();
         }
 
         frame.setVisible(true);
+    }
+
+    public void malen(int y, int x) {
+        switch(colorPGN[y][x]) {
+            case 3:
+                board[y][x].setBackground(Color.decode("#ffaeff")); // magenta
+                break;
+        }
     }
 
     public void addPlayingFieldContent(int y, int x) {
@@ -95,6 +104,7 @@ public class Play {
                 break;
             case 3:
                 board[y][x].setBackground(Color.decode("#ffaeff")); // magenta
+                break;
             case 4:
                 board[y][x].setBackground(Color.RED);
             default:
@@ -216,11 +226,12 @@ public class Play {
         frame.setJMenuBar(menuBar);
     }
 
+    // Logik muss nichts mehr berechnen. Nur noch die Daten abfragen
     public void handlePieceClick(int y, int x) {
-        if (pgn[y][x] instanceof EmptyField) {
+        if (isEmptyField(y, x)) {
             clearPotentialMoveColor();
             // if piece can move
-            if (pgn[oldPosition[0]][oldPosition[1]].setNewPosition(y, x)) {
+            if (pgn[oldPosition[0]][oldPosition[1]].pieceCanBeMoved(y, x)) {
                 drawPlayerMoves(y, x);
 
                 oldPosition[0] = y;
@@ -230,14 +241,15 @@ public class Play {
             if (playerWantsToTake(y, x) && itsPlayersTurn(oldPosition[0], oldPosition[1])) { // player wants to take
                 int[] currentPosition = new int[] {y, x};
 
-                ArrayList<int[]> potentialTakes = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
+                ArrayList<int[]> potentialTakes = new ArrayList<>();
+                potentialTakes = pgn[oldPosition[0]][oldPosition[1]].getPotentialTakes();
 
                 if (checkPieceMoveOrTake(currentPosition, potentialTakes)) {
                     drawPlayerMoves(y, x);
                 }
             } else if (itsPlayersTurn(y, x)) { // player wants to move (same color-piece was clicked)
                 clearPotentialMoveColor();
-                setColorPGN(pgn[y][x].getMoves(), 2);
+                setColorPGN(pgn[y][x].getPotentialMoves(), 2);
                 setColorPGN(pgn[y][x].getPotentialTakes(), 3);
                 markPotentialMovesWithColor();
                 
