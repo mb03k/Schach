@@ -46,7 +46,6 @@ public class Pawn extends Piece {
         potentialMoves = pm.calculateMoves();
         potentialTakes = pm.getPossibleTakesOfPieces();
 
-        // HERES A BUG: getValues is null every time
         writePM_PGN(color, pm.getValuesForPM_PGN());
     }
 
@@ -62,5 +61,13 @@ public class Pawn extends Piece {
 
     public ArrayList<int[]> getPotentialTakes() {
         return this.potentialTakes;
+    }
+
+    public boolean getFirstMoveTwoSteps() {
+        return this.firstMoveTwoSteps;
+    }
+
+    public void setFirstMoveTwoStepsFalse() {
+        this.firstMoveTwoSteps = false;
     }
 }
