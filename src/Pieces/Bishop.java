@@ -2,6 +2,7 @@ package Pieces;
 
 import static GameData.Data.currentPlayer;
 import static GameData.Data.writePM_PGN;
+import static Logic.Logic.checkPieceMoveOrTake;
 import Logic.BishopMoves;
 
 import java.util.ArrayList;
@@ -46,6 +47,12 @@ public class Bishop extends Piece {
         potentialTakes = bm.getPossibleTakesOfPieces();
 
         writePM_PGN(color, bm.getValuesForPM_PGN());
+    }
+
+    public boolean pieceCanBeMoved(int y, int x) {
+        this.potentialNewPosition = new int[] {y, x};
+
+        return checkPieceMoveOrTake(potentialNewPosition, potentialMoves);
     }
 
     public ArrayList<int[]> getPotentialMoves() {
