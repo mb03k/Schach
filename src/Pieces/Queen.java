@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Logic.QueenMoves;
 import static GameData.Data.writePM_PGN;
+import static Logic.Logic.checkPieceMoveOrTake;
 
 public class Queen extends Piece {
     private int[] currentPosition;
@@ -46,6 +47,12 @@ public class Queen extends Piece {
         ArrayList<int[]> h = qm.getValuesForPM_PGN();
 
         writePM_PGN(color, h);
+    }
+
+    public boolean pieceCanBeMoved(int y, int x) {
+        this.potentialNewPosition = new int[] {y, x};
+
+        return checkPieceMoveOrTake(potentialNewPosition, potentialMoves);
     }
 
     public ArrayList<int[]> getPotentialMoves() {
