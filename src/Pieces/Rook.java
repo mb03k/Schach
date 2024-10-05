@@ -3,6 +3,7 @@ package Pieces;
 import Logic.RookMoves;
 import java.util.ArrayList;
 import static GameData.Data.writePM_PGN;
+import static Logic.Logic.checkPieceMoveOrTake;
 
 public class Rook extends Piece {
     private int[] currentPosition;
@@ -44,6 +45,12 @@ public class Rook extends Piece {
         potentialTakes = rm.getPossibleTakesOfPieces();
 
         writePM_PGN(color, rm.getValuesForPM_PGN());
+    }
+
+    public boolean pieceCanBeMoved(int y, int x) {
+        this.potentialNewPosition = new int[] {y, x};
+
+        return checkPieceMoveOrTake(potentialNewPosition, potentialMoves);
     }
 
     public ArrayList<int[]> getPotentialMoves() {
