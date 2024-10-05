@@ -1,6 +1,7 @@
 package Logic;
 
 import static GameData.Data.blacksPM_PGN;
+import static GameData.Data.colorPGN;
 import static GameData.Data.pgn;
 import static GameData.Data.whitesPM_PGN;
 import static GameData.Data.currentPlayer;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import Pieces.EmptyField;
+import Pieces.King;
 
 public abstract class Logic {
     protected static final int y = 0;
@@ -60,6 +62,34 @@ public abstract class Logic {
             }
         } catch (Exception igored) {}
         
+        return false;
+    }
+
+    public static boolean kingsInCheck() {
+        for (int y=0; y<8; y++) {
+            for (int x=0; x<8; x++) {
+                if (pgn[y][x] instanceof King) {
+                    if(markKingInCheck(y, x)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean markKingInCheck(int y, int x) {
+        if (pgn[y][x].getColor().equals("w")) {
+            if (blacksPM_PGN[y][x] == 1) {
+                colorPGN[y][x] = 4;
+                return true;
+            }
+        } else {
+            if (whitesPM_PGN[y][x] == 1) {
+                colorPGN[y][x] = 4;
+                return true;
+            }
+        }
         return false;
     }
 }

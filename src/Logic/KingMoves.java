@@ -1,7 +1,6 @@
 package Logic;
 
 import static GameData.Data.pgn;
-import static GameData.Data.whitesPM_PGN;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +8,7 @@ import java.util.Arrays;
 public class KingMoves extends Logic {
     private int[] position;
     private int[] newPosition;
+    private int[][] drc;
     private ArrayList<int[]> potentialMovesStorage;
     private ArrayList<int[]> possibleTakesOfPieces;
     private ArrayList<int[]> valuesForPM_PGN;
@@ -17,18 +17,8 @@ public class KingMoves extends Logic {
         potentialMovesStorage = new ArrayList<>();
         possibleTakesOfPieces = new ArrayList<>();
         valuesForPM_PGN = new ArrayList<>();
-    }
 
-    public void setPosition(int[] position) {
-        this.position = position;
-    }
-
-    public void setnewPosition() {
-        this.newPosition = Arrays.copyOf(position, position.length);
-    }
-
-    public ArrayList<int[]> calculateMoves() {
-        int[][] drc = new int[][] {
+        drc = new int[][] {
             {-1,0}, // top
             {-1,-1}, // top left
             {-1,1}, // right top
@@ -38,9 +28,28 @@ public class KingMoves extends Logic {
             {1,-1}, // bottom left
             {1,1}, // bottom right
         };
+    }
 
+    public void setPosition(int[] position) {
+        this.position = position;
+    }
+
+    public void setNewPosition() {
+        this.newPosition = Arrays.copyOf(position, position.length);
+    }
+
+    public void addPM_PGN() {
+        for (int[] dir : drc) {
+            setNewPosition();
+            newPosition[y]+=dir[y];
+            newPosition[x]+=dir[x];
+            valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
+        }
+    }
+
+    public ArrayList<int[]> calculateMoves() {
         for (int i=0; i<8; i++) {
-            setnewPosition();
+            setNewPosition();
             calculateMoves(drc[i][0], drc[i][1]);
         }
         return potentialMovesStorage;
@@ -50,21 +59,10 @@ public class KingMoves extends Logic {
         newPosition[y]+=yDirection;
         newPosition[x]+=xDirection;
         String color = pgn[position[0]][position[1]].getColor();
-        valuesForPM_PGN.add(new int[]{newPosition[y], newPosition[x]});
 
         try {
             if (isEmptyField(newPosition[y], newPosition[x])) {
                 if (!otherColorSeesTheField(newPosition, color)) { 
-                    if (color.equals("b")){
-                        System.out.println("adding: "+newPosition[0]+"|"+newPosition[1]+ " - denn besetzt="+whitesPM_PGN[newPosition[0]][newPosition[1]]);
-                        System.out.println("DEBUGWEISS:");
-                        for (int i=0; i<8; i++) {
-                            for (int j=0; j<8; j++) {
-                                System.out.print(whitesPM_PGN[i][j]+"|");
-                            }
-                            System.out.println();
-                        }
-                    }
                     potentialMovesStorage.add(new int[]{newPosition[0], newPosition[1]});
                 }
             } else {
