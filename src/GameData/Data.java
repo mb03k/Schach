@@ -2,12 +2,11 @@ package GameData;
 
 import Pieces.*;
 
-import static java.lang.System.setOut;
-
 import java.util.ArrayList;
 
 public class Data {
     public static String currentPlayer;
+    public static boolean kingsInCheck;
 
     public static int[][] colorPGN = new int[][] {
         // 0 = black; 1 = white; 2 = orange; 3 = red
