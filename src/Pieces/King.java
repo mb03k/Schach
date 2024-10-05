@@ -6,12 +6,12 @@ import Logic.KingMoves;
 
 import java.util.ArrayList;
 
-
 public class King extends Piece {
     private int[] currentPosition;
     private int[] potentialNewPosition;
     private final String color;
     private final String ui;
+    private KingMoves km;
 
     private ArrayList<int[]> potentialMoves = new ArrayList<>();
     private ArrayList<int[]> potentialTakes = new ArrayList<>();
@@ -40,11 +40,9 @@ public class King extends Piece {
 
     public void calculateMoves(int y, int x) {
         currentPosition = new int[]{y, x};
-
-        KingMoves km = new KingMoves();
+        km = new KingMoves();
         km.setPosition(currentPosition);
-        potentialMoves = km.calculateMoves();
-
+        km.addPM_PGN();
         writePM_PGN(color, km.getValuesForPM_PGN());
     }
 
@@ -55,6 +53,8 @@ public class King extends Piece {
     }
 
     public ArrayList<int[]> getPotentialMoves() {
+        potentialMoves = km.calculateMoves();
+        potentialTakes = km.getPossibleTakesOfPieces();
         return this.potentialMoves;
     }
 
