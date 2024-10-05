@@ -30,6 +30,7 @@ public class Play {
         setMenuBar();
         setPlayingFieldGridLayout();
         board = new JPanel[8][8];
+        setStandardPM_PGN();
 
         // creates 64 squares with buttons and pieces
         for (int y=0; y<8; y++) { // vertical
@@ -38,10 +39,19 @@ public class Play {
                 addPlayingFieldContent(y, x);
             }
         }
+
+        if(kingsInCheck()) {
+            kingsInCheck = true;
+        } else {
+            kingsInCheck = false;
+        }
         
-        setStandardPM_PGN();
+        markPotentialMovesWithColor();
+        frame.repaint();
+
+
         
-        System.out.println("weiß;");
+        /*System.out.println("weiß;");
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
                 System.out.print(whitesPM_PGN[i][j]+"|");
@@ -55,17 +65,9 @@ public class Play {
                 System.out.print(blacksPM_PGN[i][j]+"|");
             }
             System.out.println();
-        }
+        }*/
 
         frame.setVisible(true);
-    }
-
-    public void malen(int y, int x) {
-        switch(colorPGN[y][x]) {
-            case 3:
-                board[y][x].setBackground(Color.decode("#ffaeff")); // magenta
-                break;
-        }
     }
 
     public void addPlayingFieldContent(int y, int x) {
@@ -95,19 +97,19 @@ public class Play {
     public void changeSquareColor(int y, int x) {
         switch(colorPGN[y][x]) {
             case 0:
-                board[y][x].setBackground(Color.decode("#769656")); // green
+                board[y][x].setBackground(Color.decode("#769656")); // green - standard color for square
                 break;
             case 1:
-                board[y][x].setBackground(Color.decode("#eeeed2")); // white
+                board[y][x].setBackground(Color.decode("#eeeed2")); // white - standard color for square
                 break;
             case 2:
-                board[y][x].setBackground(Color.decode("#faaf6b")); // light orange
+                board[y][x].setBackground(Color.decode("#faaf6b")); // light orange - potential move
                 break;
             case 3:
-                board[y][x].setBackground(Color.decode("#ffaeff")); // magenta
+                board[y][x].setBackground(Color.decode("#ffaeff")); // light magenta - potential take
                 break;
             case 4:
-                board[y][x].setBackground(Color.RED);
+                board[y][x].setBackground(Color.decode("#FF8488")); // light red - kings in check
             default:
         }
     }
@@ -118,7 +120,6 @@ public class Play {
                 changeSquareColor(i,j);
             }
         }
-        frame.repaint();
     }
 
     public void clearPotentialMoveColor() {
@@ -128,7 +129,6 @@ public class Play {
                 changeSquareColor(i,j);
             }
         }
-        frame.repaint();
     }
 
     public void setPlayingFieldGridLayout() {
@@ -294,7 +294,6 @@ public class Play {
     public void paintPlayingFieldAfterMove() {
         setStandardColorPGN();
         frame.getContentPane().removeAll();
-        frame.repaint();
         setPlayingField();
     }
 
