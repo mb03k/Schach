@@ -135,6 +135,14 @@ public class Data {
         return move[0]<0 || move[0]>7 || move[1]<0 || move[1]>7;
     }
 
+    public static void setCurrentPlayer(String cp) {
+        currentPlayer = cp;
+    }
+
+    public static String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     // ♚ ♛ ♜ ♝ ♞ ♟ schwarz
     // ♔ ♕ ♖ ♗ ♘ ♙ weiß
 }
