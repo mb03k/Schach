@@ -15,7 +15,7 @@ function openList() {
 }
 
 function openInstagram() {
-    window.open("https://www.instagram.com/mabo20y/");
+    window.open("https://www.instagram.com/mb21y_/");
 }
 
 function openGithub() {
