@@ -143,6 +143,14 @@ public class Data {
         return currentPlayer;
     }
 
+    public static void setOtherPlayer() {
+        if (currentPlayer.equals("w")) {
+            currentPlayer = "b";
+        } else {
+            currentPlayer = "w";
+        }
+    }
+
     // ♚ ♛ ♜ ♝ ♞ ♟ schwarz
     // ♔ ♕ ♖ ♗ ♘ ♙ weiß
 }

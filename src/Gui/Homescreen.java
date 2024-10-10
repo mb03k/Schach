@@ -3,7 +3,7 @@ package Gui;
 import javax.swing.*;
 import java.awt.*;
 
-import static Gui.Play.setCurrentPlayer;
+import static GameData.Data.setCurrentPlayer;
 import static java.lang.System.exit;
 
 public class Homescreen {

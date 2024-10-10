@@ -50,30 +50,11 @@ public class Play {
         markPotentialMovesWithColor();
         frame.repaint();
 
-
-        
-        /*System.out.println("weiß;");
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
-                System.out.print(whitesPM_PGN[i][j]+"|");
-            }
-            System.out.println();
-        }
-
-        System.out.println("\nschwarz:");
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
-                System.out.print(blacksPM_PGN[i][j]+"|");
-            }
-            System.out.println();
-        }*/
-
         frame.setVisible(true);
     }
 
     public void addPlayingFieldContent(int y, int x) {
         JPanel btnPanel = new JPanel();
-        //fieldButtonPanel = new JPanel();
         JButton playingFieldButtonListener;
         String nameOfPiece = pgn[y][x].getUi();
         JLabel emojiLabel = new JLabel(nameOfPiece);
@@ -158,6 +139,10 @@ public class Play {
 
     // Logik muss nichts mehr berechnen. Nur noch die Daten abfragen
     public void handlePieceClick(int y, int x) {
+
+        // have to check if the king is in check. If so only Moves should be available
+        // that stop the check of the king -> if no moves are available: we have a winner
+
         if (isEmptyField(y, x)) {
             clearPotentialMoveColor();
             // if piece can move
@@ -210,14 +195,6 @@ public class Play {
 
         setOtherPlayer();
         paintPlayingFieldAfterMove();
-    }
-
-    public static void setOtherPlayer() {
-        if (currentPlayer.equals("w")) {
-            currentPlayer = "b";
-        } else {
-            currentPlayer = "w";
-        }
     }
 
     public void paintPlayingFieldAfterMove() {
