@@ -15,7 +15,7 @@
 <body class="gradient">
     <div>
         
-        <?php include 'header.php'; ?>
+        <?php include 'html/header.php'; ?>
 
         <div class="container">
             <div class="bg-blue d-flex justify-content-center">
@@ -86,7 +86,7 @@
 
         <div class="container">
             Footer
-            <button><a href="readspeed.html">ReadSpeed testen</a></button>
+            <button><a href="readspeed.php">ReadSpeed testen</a></button>
         </div>
 
     </div>
