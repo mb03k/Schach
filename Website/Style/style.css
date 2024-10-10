@@ -1,14 +1,15 @@
 .gradient {
-    background-image: url( '../Assets/vanishing-stripes.svg' );
- }
+   background-image: url( '../Assets/vanishing-stripes.svg' );
+}
 
- body, html {
-    font-family: 'Anonymous Pro', monospace;
- }
- 
- .yoSoyMatthes {
+body, html {
+   font-family: 'Anonymous Pro', monospace;
+   height: 100%;
+}
+
+.yoSoyMatthes {
    font-family: 'Ubuntu', sans-serif;
- }
+}
 
 .projectsContainer {
    max-width: 96%;
